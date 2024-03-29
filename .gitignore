@@ -361,5 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/reactapp1.client/package-lock.json
-/reactapp1.client/package.json
