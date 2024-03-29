@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.DataContext.Model;
 using ReactApp1.Server.Services;
 
-namespace elsoBeadandoProba.Server.Controllers
+namespace ReactApp1.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")] //A [controller] kiveszi a class nevébõl a "controller"-t, az [action] helyére pedig az adott függvény fog bekerülni
