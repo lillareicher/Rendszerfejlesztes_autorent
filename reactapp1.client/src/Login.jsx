@@ -5,10 +5,6 @@ function Login() {
     const [usernameC, setUsername] = useState();
     const [passwordC, setPassword] = useState();
 
-    useEffect(() => {
-        sendLoginInfo();
-    }, []);
-
     async function sendLoginInfo() {
         const data = {
             username: usernameC,
@@ -26,7 +22,6 @@ function Login() {
                 if (!response.ok) {
                     throw new Error('Invalid username or password in frontend');
                 }
-                return response.json();
             })
             //.then(responseData => {
             //    localStorage.setItem('token', responseData.token);
