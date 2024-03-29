@@ -19,9 +19,9 @@ namespace ReactApp1.Server.Controllers
         [HttpPost]
         public async Task <IActionResult> Login(LoginModel model)
         {
-           var successed = await _authService.Login(model);
+           var succeeded = await _authService.Login(model);
 
-            if (successed)
+            if (succeeded)
                 return Ok();
 
             return Unauthorized();
