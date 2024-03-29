@@ -15,7 +15,7 @@ function Login() {
             password: passwordC
         };
 
-        fetch('login', {
+        fetch('https://localhost:7045/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,15 +28,14 @@ function Login() {
                 }
                 return response.json();
             })
-            .then(responseData => {
-                localStorage.setItem('token', responseData.token);
-            })
+            //.then(responseData => {
+            //    localStorage.setItem('token', responseData.token);
+            //})
             .catch(error => {
                 console.log(error);
             });
 
     }
-
 
     function userChange(event) {
         setUsername(event.target.value);

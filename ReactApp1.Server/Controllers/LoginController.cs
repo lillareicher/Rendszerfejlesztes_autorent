@@ -4,11 +4,11 @@ namespace elsoBeadandoProba.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class LoginController : Controller
+    public class LoginController : ControllerBase
     {
 
 
-        [HttpPost(Name = "PostLogin")]
+        [HttpPost]
         public IActionResult Login(LoginModel model)
         {
             // Hardcoded username and password for testing
