@@ -22,9 +22,9 @@ namespace ReactApp1.Server.Controllers
            var successed = await _authService.Login(model);
 
             if (successed)
-                return Ok("Sikeres volt haha hehe xd :)");
+                return Ok();
 
-            return Unauthorized("Nem jo nev: " +model.Username+ " es nem jo a jelszo se :@: " +model.Password);
+            return Unauthorized();
         }
     }
 }
