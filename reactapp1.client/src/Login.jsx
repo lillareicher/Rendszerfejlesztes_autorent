@@ -15,7 +15,7 @@ function Login() {
             password: passwordC
         };
 
-        fetch('https://localhost:7045/login', {
+        fetch('https://localhost:7045/api/auth/login', { // külön fájlba kiszervezni const-ként a lekéréseket
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

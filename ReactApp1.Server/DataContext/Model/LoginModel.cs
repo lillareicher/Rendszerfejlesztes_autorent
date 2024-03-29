@@ -1,4 +1,4 @@
-namespace elsoBeadandoProba.Server
+namespace ReactApp1.Server.DataContext.Model
 {
     public class LoginModel
     {

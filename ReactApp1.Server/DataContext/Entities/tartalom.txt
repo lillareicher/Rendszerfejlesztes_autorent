@@ -1,0 +1,2 @@
+﻿
+A táblában lévő elemek tulajdonságait tárolja. 
