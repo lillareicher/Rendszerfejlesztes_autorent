@@ -1,0 +1,14 @@
+{
+  {
+    "id": "c1",
+    "name": "Five_seat",
+  },
+  {
+    "id": "c2",
+    "name": "Off-road"
+  },
+  {
+    "id": "c3",
+    "name": "Race_car"
+  }
+}
