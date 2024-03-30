@@ -1,41 +1,38 @@
 import { useEffect, useState } from 'react';
 
-//useEffect(() => {
-//    const token = localStorage.getItem('token');
-//    fetch('https://localhost:7045/api/cars', {
-//        headers: {
-//            'Authorization': `Bearer ${token}`
-//        }
-//    })
-//        .then(response => response.json())
-//        .then(data => {
-//            // handle response data
-//        })
-//        .catch(error => {
-//            console.error('Error fetching cars:', error);
-//        });
-//}, []);
 
 
 function Cars() {
-    const [carsList, setCarsList] = useState();
+    const [carsList, setCarsList] = useState([]);
+
+    const flag = null;
 
     useEffect(() => {
         getCarsList();
-    }, []);
+    }, [flag]);
 
     async function getCarsList() {
-        try {
-            const response = await fetch('api/carscontroller/listcars');
-            if (!response.ok) {
-                throw new Error('Failed to fetch cars');
-            }
 
-            const data = await response.json
-            setCarsList(data);
-        } catch (error) {
-            console.error('Error fetching cars:', error);
-        }
+        const response = await fetch('https://localhost:7045/api/car/listcars');
+        const data = await response.json();
+        setCarsList(data);
+
+    }
+
+    function listing() {
+        var result = new Array();
+
+        result = result.concat(carsList.map(car => {
+            return (
+                <tr key={car.id}>
+                    <td>{car.id}</td>
+                    <td>{car.brand}</td>
+                    <td>{car.model}</td>
+                    <td>{car.dailyPrice}</td>
+                </tr>
+            );
+        }));
+        return result;
     }
 
     return (
@@ -50,15 +47,7 @@ function Cars() {
                     </tr>
                 </thead>
                 <tbody>
-                    {carsList.map(car => (
-                        <tr key={car.id}>
-                            <td>{car.id}</td>
-                            <td>{car.category_id}</td>
-                            <td>{car.brand}</td>
-                            <td>{car.model}</td>
-                            <td>{car.daily_price}</td>
-                        </tr>
-                    ))}
+                    {listing()}
                 </tbody>
             </table>
         </div>
