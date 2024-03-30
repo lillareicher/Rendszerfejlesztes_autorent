@@ -8,8 +8,4 @@ namespace ReactApp1.Server.DataContext.Model
         public string Name { get; set; }
     }
 
-    public class CategoryList
-    {
-        public List<CategoryModel> Categories { get; set; }
-    }
 }

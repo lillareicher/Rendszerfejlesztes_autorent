@@ -10,8 +10,4 @@ namespace ReactApp1.Server.DataContext.Model
         public int Percent {  get; set; }
     }
 
-    public class SalesList
-    {
-        public List<SalesModel> Sales { get; set; }
-    }
 }
