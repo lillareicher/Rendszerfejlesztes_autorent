@@ -21,7 +21,7 @@ namespace ReactApp1.Server.Controllers
         {
             List<CarModel> cars = await _carService.ListCars();
 
-            return new JsonResult(cars);
+            return Ok(cars);
         }
     }
 }

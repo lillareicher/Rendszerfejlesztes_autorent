@@ -53,6 +53,7 @@ function Cars() {
                     {carsList.map(car => (
                         <tr key={car.id}>
                             <td>{car.id}</td>
+                            <td>{car.category_id}</td>
                             <td>{car.brand}</td>
                             <td>{car.model}</td>
                             <td>{car.daily_price}</td>
