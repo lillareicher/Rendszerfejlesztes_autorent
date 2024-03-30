@@ -1,0 +1,23 @@
+{
+  {
+    "id": "c1",
+    "category_id": "1",
+    "brand": "Toyota",
+    "model": "Carmy",
+    "daily_price": "50$"
+  },
+  {
+    "id": "c2",
+    "category_id": "2",
+    "brand": "Honda",
+    "model": "Civic",
+    "daily_price": "45$"
+  },
+  {
+    "id": "c3",
+    "category_id": "3",
+    "brand": "BMW",
+    "model": "3 Series",
+    "daily_price": "65$"
+  }
+}

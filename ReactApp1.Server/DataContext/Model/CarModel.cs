@@ -1,4 +1,5 @@
-﻿// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace ReactApp1.Server.DataContext.Model { 
     public class CarModel
     {
@@ -9,7 +10,7 @@ namespace ReactApp1.Server.DataContext.Model {
         public string daily_price { get; set; }
     }
 
-    public class Root
+    public class CarList
     {
         public List<CarModel> Cars { get; set; }
     }
