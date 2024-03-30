@@ -18,51 +18,46 @@ import { useEffect, useState } from 'react';
 
 
 function Cars() {
+    const [carsList, setCarsList] = useState();
+
+    useEffect(() => {
+        getCarsList();
+    }, []);
+
+    async function getCarsList() {
+        try {
+            const response = await fetch('api/carscontroller/listcars');
+            if (!response.ok) {
+                throw new Error('Failed to fetch cars');
+            }
+
+            const data = await response.json
+            setCarsList(data);
+        } catch (error) {
+            console.error('Error fetching cars:', error);
+        }
+    }
 
     return (
         <div>
             <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Daily Price</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr>
-                        <td >
-                        </td>
-                        <td >Brand
-                        </td>
-                        <td >Model
-                        </td>
-                        <td >Daily Price
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >1.
-                        </td>
-                        <td >Toyota
-                        </td>
-                        <td >Camry
-                        </td>
-                        <td >$50
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >2.
-                        </td>
-                        <td >Honda
-                        </td>
-                        <td >Civic
-                        </td>
-                        <td >$45
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >3.
-                        </td>
-                        <td >BMW
-                        </td>
-                        <td >3 Series
-                        </td>
-                        <td >$65
-                        </td>
-                    </tr>
+                    {carsList.map(car => (
+                        <tr key={car.id}>
+                            <td>{car.id}</td>
+                            <td>{car.brand}</td>
+                            <td>{car.model}</td>
+                            <td>{car.daily_price}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
