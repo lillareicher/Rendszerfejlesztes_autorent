@@ -9,8 +9,4 @@ namespace ReactApp1.Server.DataContext.Model {
         public string DailyPrice { get; set; }
     }
 
-    public class CarList
-    {
-        public List<CarModel> Cars { get; set; }
-    }
 }
