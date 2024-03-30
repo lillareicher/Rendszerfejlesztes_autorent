@@ -1,68 +1,53 @@
 import { useEffect, useState } from 'react';
 
-//useEffect(() => {
-//    const token = localStorage.getItem('token');
-//    fetch('https://localhost:7045/api/cars', {
-//        headers: {
-//            'Authorization': `Bearer ${token}`
-//        }
-//    })
-//        .then(response => response.json())
-//        .then(data => {
-//            // handle response data
-//        })
-//        .catch(error => {
-//            console.error('Error fetching cars:', error);
-//        });
-//}, []);
 
 
 function Cars() {
+    const [carsList, setCarsList] = useState([]);
+
+    const flag = null;
+
+    useEffect(() => {
+        getCarsList();
+    }, [flag]);
+
+    async function getCarsList() {
+
+        const response = await fetch('https://localhost:7045/api/car/listcars');
+        const data = await response.json();
+        setCarsList(data);
+
+    }
+
+    function listing() {
+        var result = new Array();
+
+        result = result.concat(carsList.map(car => {
+            return (
+                <tr key={car.id}>
+                    <td>{car.id}</td>
+                    <td>{car.brand}</td>
+                    <td>{car.model}</td>
+                    <td>{car.dailyPrice}</td>
+                </tr>
+            );
+        }));
+        return result;
+    }
 
     return (
         <div>
             <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Daily Price</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr>
-                        <td >
-                        </td>
-                        <td >Brand
-                        </td>
-                        <td >Model
-                        </td>
-                        <td >Daily Price
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >1.
-                        </td>
-                        <td >Toyota
-                        </td>
-                        <td >Camry
-                        </td>
-                        <td >$50
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >2.
-                        </td>
-                        <td >Honda
-                        </td>
-                        <td >Civic
-                        </td>
-                        <td >$45
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >3.
-                        </td>
-                        <td >BMW
-                        </td>
-                        <td >3 Series
-                        </td>
-                        <td >$65
-                        </td>
-                    </tr>
+                    {listing()}
                 </tbody>
             </table>
         </div>
