@@ -18,18 +18,21 @@ function Login() {
             },
             body: JSON.stringify(data),
         })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Invalid username or password in frontend');
-                }
-            })
-            //.then(responseData => {
-            //    localStorage.setItem('token', responseData.token);
-            //})
-            .catch(error => {
-                console.log(error);
-            });
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Invalid username or password in frontend');
+            }
 
+            window.location.href = "/cars";
+            //return response.json();
+        })
+        //.then((responsedata) => {
+        //    localStorage.setItem('token', responsedata.Token);
+        //    
+        //})
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     function userChange(event) {
