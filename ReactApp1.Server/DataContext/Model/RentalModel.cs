@@ -12,8 +12,4 @@ namespace ReactApp1.Server.DataContext.Model
         public string Created {  get; set; }
     }
 
-    public class RentalList
-    {
-        public List<RentalModel> Rentals { get; set; }
-    }
 }

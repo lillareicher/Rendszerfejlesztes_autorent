@@ -10,8 +10,4 @@ namespace ReactApp1.Server.DataContext.Model
         public string Password { get; set; }
     }
 
-    public class UserList
-    {
-        public List<UserModel> Users { get; set; }
-    }
 }
