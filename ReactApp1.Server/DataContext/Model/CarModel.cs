@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 namespace ReactApp1.Server.DataContext.Model { 
     public class CarModel
     {
