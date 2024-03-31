@@ -1,4 +1,4 @@
-{
+[
   {
     "id": "c1",
     "category_id": "1",
@@ -20,4 +20,4 @@
     "model": "3 Series",
     "daily_price": "65$"
   }
-}
+]

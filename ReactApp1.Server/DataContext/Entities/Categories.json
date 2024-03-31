@@ -1,7 +1,7 @@
-{
+[
   {
     "id": "c1",
-    "name": "Five_seat",
+    "name": "Five_seat"
   },
   {
     "id": "c2",
@@ -11,4 +11,4 @@
     "id": "c3",
     "name": "Race_car"
   }
-}
+]
