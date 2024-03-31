@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Login from './Login.jsx'
 import Cars from './Cars.jsx'
+
+import CarDetails from './CarDetails';
 import {
     createBrowserRouter,
     RouterProvider,
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "cars",
         element: <Cars />
+    },
+    {
+        path: "/cars/:carId",
+        element: <CarDetails/>
     }
 ]);
 
