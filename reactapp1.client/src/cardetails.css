@@ -22,9 +22,9 @@ a {
     }
 
 div {
+    text-align: left;
     margin: auto;
-    text-align: center;
-    place-items: center;
+    place-items: left;
 }
 
 body {

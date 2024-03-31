@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.DataContext.Model;
 using ReactApp1.Server.Services;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace ReactApp1.Server.Controllers
 {
@@ -22,7 +20,15 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> ListCars()
         {
             List<CarModel> cars = await _carService.ListCars();
+   
             return Ok(cars);
+        }
+
+        [HttpGet("{categoryName}")]
+        public async Task<IActionResult> FilterCars(string categoryName)
+        {
+            var categories = await _carService.FilterCars(categoryName);
+            return Ok(categories);
         }
     }
 }

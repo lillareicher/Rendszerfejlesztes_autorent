@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 //import './App.css';
 
@@ -18,21 +19,21 @@ function Login() {
             },
             body: JSON.stringify(data),
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Invalid username or password in frontend');
-            }
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Invalid username or password in frontend');
+                }
 
-            window.location.href = "/cars";
-            //return response.json();
-        })
-        //.then((responsedata) => {
-        //    localStorage.setItem('token', responsedata.Token);
-        //    
-        //})
-        .catch(error => {
-            console.log(error);
-        });
+                window.location.href = "/cars";
+                //return response.json();
+            })
+            //.then((responsedata) => {
+            //    localStorage.setItem('token', responsedata.Token);
+            //    
+            //})
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     function userChange(event) {
@@ -48,11 +49,11 @@ function Login() {
             <div>
                 <div>
                     <label>Username:</label>
-                    <input type="text" name="username" onChange={userChange } />
+                    <input type="text" name="username" onChange={userChange} />
                 </div>
                 <div>
                     <label>Password:</label>
-                    <input type="password" name="password" onChange={passChange } />
+                    <input type="password" name="password" onChange={passChange} />
                 </div>
                 <button onClick={sendLoginInfo}>Login</button>
             </div>
