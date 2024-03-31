@@ -10,21 +10,21 @@ namespace ReactApp1.Server.Services
         Task<List<CarModel>> ListCars();
     }
 
-        public class CarService: ICarService
+    public class CarService: ICarService
+    {
+    public CarService() { }
+
+        public async Task<List<CarModel>> ListCars()
         {
-        public CarService() { }
-
-            public async Task<List<CarModel>> ListCars()
-            {
-                List<CarModel> Cars = new List<CarModel>();
-                string text = File.ReadAllText(@"./Cars.json");
-                var car = JsonSerializer.Deserialize<CarModel>(text);
-                Cars.Add(car);
-                return Cars;
-
-            }
+            List<CarModel> Cars = new List<CarModel>();
+            string text = File.ReadAllText(@"./Cars.json");
+            var car = JsonSerializer.Deserialize<CarModel>(text);
+            Cars.Append(car);
+            return Cars;
 
         }
+
+    }
 
 
 }
