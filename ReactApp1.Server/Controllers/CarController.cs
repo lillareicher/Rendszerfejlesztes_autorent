@@ -23,6 +23,8 @@ namespace ReactApp1.Server.Controllers
             List<CarModel> cars = new List<CarModel>();
             CarModel car1=new CarModel();
             CarModel car2=new CarModel();
+            CarModel car3=new CarModel();
+            CarModel car4=new CarModel();
             car1.Id = "c1";
             car1.CategoryId = "1";
             car1.Brand = "Toyota";
@@ -35,8 +37,22 @@ namespace ReactApp1.Server.Controllers
             car2.Model = "Civic";
             car2.DailyPrice = "45$";
 
+            car3.Id = "c3";
+            car3.CategoryId = "1";
+            car3.Brand = "Toyota";
+            car3.Model = "Yaris";
+            car3.DailyPrice = "50$";
+
+            car4.Id = "c4";
+            car4.CategoryId = "3";
+            car4.Brand = "Ford";
+            car4.Model = "Fiesta";
+            car4.DailyPrice = "50$";
+
             cars.Add(car1);
             cars.Add(car2);
+            cars.Add(car3);
+            cars.Add(car4);
 
             return Ok(cars);
         }
