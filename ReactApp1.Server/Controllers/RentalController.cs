@@ -27,7 +27,24 @@ namespace ReactApp1.Server.Controllers
         [HttpGet("{carId}")]  //api/rental/getrentals/"id"
         public async Task<IActionResult> getRentals (string carId)
         {
+            var rentalsByID = await _rentalService.getRentals(carId);
+            return Ok(rentalsByID);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ValidDate(string CarId, DateTime FromDate, DateTime ToDate)
+        {
+            var succeded = await _rentalService.ValidDate(CarId, FromDate, ToDate);
+            if (succeded) 
+            { 
+                return Ok(); 
+            }
+            return Unauthorized();
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewReservation(string UserId, string CarId, DateTime FromDate, DateTime ToDate, DateTime Created)
+        {
             return Ok();
         }
+
     }
 }
