@@ -37,14 +37,14 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalsByUserID);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ValidDate(RentalModel newModel)
+        [HttpGet]
+        public async Task<IActionResult> ValidDate(string carId, string _fromDate, string _toDate)
         {
-            var succeded = await _rentalService.ValidDate(newModel);
+            var succeded = await _rentalService.ValidDate(carId, _fromDate, _toDate);
                 return Ok(succeded); 
             //return Unauthorized();
         }
-        [HttpPost]
+        [HttpPost]2
         public async Task<IActionResult> NewReservation(string UserId, string CarId, DateTime FromDate, DateTime ToDate, DateTime Created)
         {
             return Ok();
