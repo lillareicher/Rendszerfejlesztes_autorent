@@ -35,7 +35,6 @@ function Cars() {
 
 
     function listing() {
-        console.log(carsList);
         var result = new Array();
 
         result = result.concat(carsList.map(car => {

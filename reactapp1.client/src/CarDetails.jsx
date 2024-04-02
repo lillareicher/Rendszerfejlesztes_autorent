@@ -54,8 +54,8 @@ function CarDetails() {
         result = result.concat(rentsList.map(rent => {
             return (
                 <tr key={rent.id}>
-                    <td>{rent.fromDate}</td>
-                    <td>{rent.toDate}</td>
+                    <td>{(rent.fromDate).substring(0,10)}</td>
+                    <td>{(rent.toDate).substring(0,10)}</td>
                 </tr>
             );
         }));
@@ -98,8 +98,8 @@ function CarDetails() {
     //el kell helyezni a f�ggv�nyt a reserve gombba!!!
         const data = {
             CarId: carId,
-            FromDate: fromDate,
-            ToDate: toDate
+            FromDate: fromDate + "T00:00:00",
+            ToDate: toDate + "T00:00:00"
         };
 
     fetch('https://localhost:7045/api/rental/validdate', {
@@ -147,7 +147,6 @@ function CarDetails() {
             </div>
 
             <br></br>
-            EZEK CSAK MINTA ADATOK:
             <div>
                 Reserved on these dates:
                 <table border="1">
