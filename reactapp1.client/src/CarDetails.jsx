@@ -104,39 +104,25 @@ function CarDetails() {
 
 
         const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
-        console.log(response);
+        //console.log(response);
         const data = await response.json();
-            if (data) {
-                console.log(data);
-                window.alert("Your reservation has been succesful!");
-            } else {
-                window.alert("Invalid reservation. Please check the dates.");
-            }
+        if (data) {
+            console.log(data);
+            window.alert("Your reservation has been succesful!");
+        } else {
+            window.alert("Invalid reservation. Please check the dates.");
+        }
 
-        //async function getRents() {
+    }
 
-        //    const response = await fetch('https://localhost:7045/api/rental/getrentals/' + carId);
-        //    const data = await response.json();
-        //    setRentsList(data);
+    function countPrice() {
+        var data = 0;
+        //const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        //data = await response.json();
 
-        //}
-
-    //fetch('https://localhost:7045/api/rental/validdate', {
-    //    method: 'POST',
-    //    headers: {
-    //        'Content-Type': 'application/json',
-    //    },
-    //    body: JSON.stringify(data),
-    //}).then((response) => {
-    //    if (response) {
-    //        //makeReserv();
-    //        window.alert("Your reservation has been succesful!");
-    //    } else if (!response) {
-    //        window.alert("Invalid reservation. Please check the dates.");
-    //    }
-    //}).catch(error => {
-    //    console.log(error);
-    //});
+        return (
+            <h3>{data}$</h3>
+        );
     }
 
 
@@ -190,7 +176,7 @@ function CarDetails() {
                 <label>End date:</label> <input name="endDate" type="date" onChange={toChange}></input>
                 <br></br>
                 <button onClick={sendReserv}>Reserve</button>
-                
+                {countPrice()}
             </div>
         </div>
     );

@@ -27,7 +27,7 @@ namespace ReactApp1.Server.Controllers
             return Unauthorized();
         }
 
-        [HttpGet]
+        [HttpGet("{username}")]
         public async Task<IActionResult> GetUser(string username)
         {
             var user = await _authService.GetUser(username);

@@ -43,7 +43,7 @@ function Cars() {
                     <td>{car.id}</td>
                     <td>{car.brand}</td>
                     <td>{car.model}</td>
-                    <td>{car.dailyPrice}</td>
+                    <td>{car.dailyPrice + "$"}</td>
                     <td><Link to={'/cars/' + car.id}>Open</Link></td>
                 </tr>
             );

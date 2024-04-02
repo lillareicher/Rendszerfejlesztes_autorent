@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Login from './Login.jsx'
 import Cars from './Cars.jsx'
+import User from './User.jsx'
 
 import CarDetails from './CarDetails';
 import {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: "/cars/:carId",
         element: <CarDetails />
+    },
+    {
+        path: "/user/:username",
+        element: <User />
     }
 ]);
 
