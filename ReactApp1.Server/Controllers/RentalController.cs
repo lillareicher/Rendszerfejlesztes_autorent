@@ -30,6 +30,13 @@ namespace ReactApp1.Server.Controllers
             var rentalsByID = await _rentalService.GetRentals(carId);
             return Ok(rentalsByID);
         }
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserRentals(string userId)
+        {
+            var rentalsByUserID = await _rentalService.GetUserRentals(userId);
+            return Ok(rentalsByUserID);
+        }
+
         [HttpPost]
         public async Task<IActionResult> ValidDate(RentalModel newModel)
         {

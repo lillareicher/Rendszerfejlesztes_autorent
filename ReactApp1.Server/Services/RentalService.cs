@@ -12,6 +12,7 @@ namespace ReactApp1.Server.Services
         Task<List<RentalModel>> ListRentals();
         Task<List<RentalModel>> GetRentals(string carId);
         Task<bool> ValidDate(RentalModel newModel);
+        Task<List<RentalModel>> GetUserRentals(string userId);
     }
 
     public class RentalService : IRentalService
@@ -76,6 +77,17 @@ namespace ReactApp1.Server.Services
                 if(rental.CarId == carId) { rentalsById.Add(rental); }
             }
             return rentalsById;
+        }
+        
+        public async Task<List<RentalModel>> GetUserRentals(string userId)
+        {
+            var rentals = await ListRentals();
+            List<RentalModel> rentalsByUserId = new List<RentalModel>();
+            foreach (var rental in rentals)
+            {
+                if (rental.UserId == userId) { rentalsByUserId.Add(rental); }
+            }
+            return rentalsByUserId;
         }
 
         public async Task<bool> ValidDate(RentalModel newModel)
