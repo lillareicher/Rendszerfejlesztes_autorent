@@ -24,10 +24,10 @@ namespace ReactApp1.Server.Services
         public async Task<List<CarModel>> ListCars()
         {
             List<CarModel> cars = new List<CarModel>();
-            CarModel car1 = new CarModel() { Id = "c1", CategoryId = "ct1", Brand = "Toyota", Model = "Carmy", DailyPrice = "50$" };
-            CarModel car2 = new CarModel() { Id = "c2", CategoryId = "ct2", Brand = "Honda", Model = "Civic", DailyPrice = "45$" };
-            CarModel car3 = new CarModel() { Id = "c3", CategoryId = "ct1", Brand = "Toyota", Model = "Yaris", DailyPrice = "50$" };
-            CarModel car4 = new CarModel() { Id = "c4", CategoryId = "ct4", Brand = "Ford", Model = "Fiesta", DailyPrice = "50$" };
+            CarModel car1 = new CarModel() { Id = "c1", CategoryId = "ct1", Brand = "Toyota", Model = "Carmy", DailyPrice = 50 };
+            CarModel car2 = new CarModel() { Id = "c2", CategoryId = "ct2", Brand = "Honda", Model = "Civic", DailyPrice = 45 };
+            CarModel car3 = new CarModel() { Id = "c3", CategoryId = "ct1", Brand = "Toyota", Model = "Yaris", DailyPrice = 50 };
+            CarModel car4 = new CarModel() { Id = "c4", CategoryId = "ct4", Brand = "Ford", Model = "Fiesta", DailyPrice = 50 };
 
             cars.Add(car1);
             cars.Add(car2);

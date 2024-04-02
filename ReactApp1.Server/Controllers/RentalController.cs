@@ -49,6 +49,11 @@ namespace ReactApp1.Server.Controllers
         {
             return Ok();
         }
-
+        [HttpGet]
+        public async Task<IActionResult> CountPrice(string carId, string _fromDate, string _toDate)
+        {
+            var price = await _rentalService.CountPrice(carId, _fromDate, _toDate);
+            return Ok(price);
+        }
     }
 }

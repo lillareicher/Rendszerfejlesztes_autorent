@@ -13,12 +13,16 @@ namespace ReactApp1.Server.Services
         Task<List<RentalModel>> GetRentals(string carId);
         Task<bool> ValidDate(string carId, string _fromDate, string _toDate);
         Task<List<RentalModel>> GetUserRentals(string userId);
+        Task<int> CountPrice(string carId, string _fromDate, string _toDate);
     }
 
     public class RentalService : IRentalService
     {
-
-        public RentalService() { }
+        private readonly ICarService _carService;
+        public RentalService(ICarService carService) 
+        {
+            _carService = carService;
+        }
 
         public async Task<List<RentalModel>> ListRentals()
         {
@@ -111,6 +115,23 @@ namespace ReactApp1.Server.Services
             if (checkFromDate && checkToDate) { dateIsFree = true; }
             if(validDate && dateIsFree) { return true; }
             return false;
+        }
+
+        public async Task<int> CountPrice(string carId, string _fromDate, string _toDate)
+        {
+            DateTime fromDate = DateTime.Parse(_fromDate);
+            DateTime toDate = DateTime.Parse(_toDate);
+            TimeSpan difference = toDate - fromDate;
+            int days = difference.Days+1;
+            List<CarModel> carTypes = await _carService.ListCars();
+            foreach(var carType in carTypes)
+            {
+                if(carType.Id == carId)
+                {
+                    return days * carType.DailyPrice;
+                }
+            }
+            return 0;
         }
     }
 }
