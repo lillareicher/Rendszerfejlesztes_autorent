@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 function CarDetails() {
     const [loading, setLoading] = useState(true);
     const [carsList, setCarsList] = useState([]);
+    const [price, setPrice] = useState(0);
     const [rentsList, setRentsList] = useState([]);
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
@@ -107,7 +108,6 @@ function CarDetails() {
         //console.log(response);
         const data = await response.json();
         if (data) {
-            console.log(data);
             window.alert("Your reservation has been succesful!");
         } else {
             window.alert("Invalid reservation. Please check the dates.");
@@ -115,16 +115,14 @@ function CarDetails() {
 
     }
 
-    function countPrice() {
-        var data = 0;
-        //const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
-        //data = await response.json();
+    async function countPrice() {
+       
+        const response = await fetch('https://localhost:7045/api/rental/countprice?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        const data = await response.json();
 
-        return (
-            <h3>{data}$</h3>
-        );
+        setPrice(data);
+
     }
-
 
     if (loading) {
         return <div>Loading data...</div>
@@ -176,7 +174,8 @@ function CarDetails() {
                 <label>End date:</label> <input name="endDate" type="date" onChange={toChange}></input>
                 <br></br>
                 <button onClick={sendReserv}>Reserve</button>
-                {countPrice()}
+                <button onClick={countPrice}>Count price</button>
+                <h3>{price}$</h3>
             </div>
         </div>
     );
