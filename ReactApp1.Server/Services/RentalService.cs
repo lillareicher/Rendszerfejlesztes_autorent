@@ -10,7 +10,7 @@ namespace ReactApp1.Server.Services
     public interface IRentalService // interface 
     {
         Task<List<RentalModel>> ListRentals();
-        Task<List<RentalModel>> getRentals(string carId);
+        Task<List<RentalModel>> GetRentals(string carId);
         Task<bool> ValidDate(string CarId, DateTime FromDate, DateTime ToDate);
     }
 
@@ -67,7 +67,7 @@ namespace ReactApp1.Server.Services
             return rentals;
         }
 
-        public async Task<List<RentalModel>> getRentals (string carId)
+        public async Task<List<RentalModel>> GetRentals (string carId)
         {
             var rentals = await ListRentals();
             List<RentalModel> rentalsById = new List<RentalModel>();

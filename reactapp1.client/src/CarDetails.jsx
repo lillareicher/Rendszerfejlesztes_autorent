@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 function CarDetails() {
     const [loading, setLoading] = useState(true);
     const [carsList, setCarsList] = useState([]);
-    //const [rentsList, setRentsList] = useState([]);
+    const [rentsList, setRentsList] = useState([]);
     const [fromDate, setFromDate] = useState([]);
     const [toDate, setToDate] = useState([]);
     const params = useParams();
@@ -23,27 +23,35 @@ function CarDetails() {
             setLoading(false);
         }
 
-        //async function getRents() {
-        //    const data = {
-        //        carId: carId
-        //    };
+        async function getRents() {
+            const data = carId;
 
-        //    fetch('https://localhost:7045/api/rental/getrentals', {
-        //        method: 'POST',
-        //        headers: {
-        //            'Content-Type': 'application/json',
-        //        },
-        //        body: JSON.stringify(data),
-        //    }).then((response) => {
-        //        const res = response.json();
-        //        setRentsList(res);
-        //    }).catch(error => {
-        //        console.log(error);
-        //    });
-        //}
+            fetch('https://localhost:7045/api/rental/getrentals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            }).then((response) => {
+                console.log("getRents(), response");
+                console.log(response);
+
+                const res = response.json();
+
+                console.log("getRents(), res");
+                console.log(res);
+
+                setRentsList(res);
+
+                console.log("getRents(), rentsList");
+                console.log(rentsList);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
 
         getCarsList();
-        //getRents();
+        getRents();
     }, []);
 
     function printCar() {
@@ -61,6 +69,8 @@ function CarDetails() {
     }
 
     //function listRents() {
+    //    //console.log("listRents(), rentsList");
+    //    //console.log(rentsList);
     //    var result = new Array();
 
     //    result = result.concat(rentsList.map(rent => {
@@ -183,7 +193,7 @@ function CarDetails() {
                             <td >04.10</td>
                             <td >04.12</td>
                         </tr>
-                        {/*listRents() */}
+                        {/*listRents()*/}
                     </tbody>
                 </table>
 

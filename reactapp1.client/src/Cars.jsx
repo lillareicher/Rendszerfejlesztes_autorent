@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 
 function Cars() {
+    const [loading, setLoading] = useState(true);
     const [carsList, setCarsList] = useState([]);
-    //const [categoryList, setCatList] = useEffect([]);
-    //const [filterCat, setFilterCat] = useState([]);
+    const [categoryList, setCatList] = useState([]);
+    const [filterCat, setFilterCat] = useState("Race");
 
     const flag = null;
 
@@ -17,22 +18,24 @@ function Cars() {
             const response = await fetch('https://localhost:7045/api/car/listcars');
             const data = await response.json();
             setCarsList(data);
+            setLoading(false);
         }
 
-        //async function getCatList() {
+        async function getCatList() {
 
-        //    const response = await fetch('https://localhost:7045/api/category/listcaregories');
-        //    const data = await response.json();
-        //    setCatList(data);
-        //}
-
+            const response = await fetch('https://localhost:7045/api/category/listcategories');
+            const data = await response.json();
+            setCatList(data);
+            setLoading(false);
+        }
 
         getCarsList();
-        //getCatList();
+        getCatList();
     }, [flag]);
 
 
     function listing() {
+        console.log(carsList);
         var result = new Array();
 
         result = result.concat(carsList.map(car => {
@@ -46,49 +49,71 @@ function Cars() {
                 </tr>
             );
         }));
+        
         return result;
     }
 
-    //async function sendCategory() {
-    //    const data = {
-    //        filter: filterCat
-    //    }
+    async function sendCategory() {
+        console.log("sendCategory(), filterCat");
+        console.log(filterCat);
 
-    //    //elküldjük a szükséges filter adatot
-    //    fetch('https://localhost:7045/api/category/filtercaregories', {
-    //        method: 'POST',
-    //        headers: {
-    //            'Content-Type': 'application/json',
-    //        },
-    //        body: JSON.stringify(data),
-    //    }).then((response) => {
-    //    //megkapjuk a frissített listát
-    //        const res = response.json();
-    //        setCarsList(res)
-    //    //helyettesítjük a listát a frissített listával
-    //    }).catch(error => {
-    //        console.log(error);
-    //    });
 
-    //}
+        //setLoading(true);
+        //const data = filterCat;
+        //console.log("sendCategory(), data");
+        //console.log(data);
+        //console.log(JSON.stringify(data));
+
+        const response = await fetch('https://localhost:7045/api/car/filtercars/' + filterCat);
+        const data = await response.json();
+        setCarsList(data);
+
+
+        //const response = await fetch('https://localhost:7045/api/car/listcars');
+        //const data = await response.json();
+        //setCarsList(data);
+        //setLoading(false);
+
+        //fetch('https://localhost:7045/api/car/filtercars/' + filterCat ).then((response) => {
+        //    console.log("sendCategory response");
+        //    console.log(response);
+
+        //    const res = await response.json();
+
+        //    console.log("sendCategory res");
+        //    console.log(res);
+
+        //    setCarsList(res);
+        //    setLoading(false);
+        //}).catch(error => {
+        //    console.log(error);
+        //});
+    }
 
     function catChange(event) {
         if (event.target.value == "none") {
             window.location.reload();
         }
-        //setFilterCat(event.target.value);
+        console.log(event.target.value);
+        setFilterCat(event.target.value);
+        console.log("catChange(), filterCat");
+        console.log(filterCat);
     }
 
-    //function selecting() {
-    //    var result = new Array();
+    function selecting() {
+        var result = new Array();
 
-    //    result = result.concat(categoryList.map(cat => {
-    //        return (
-    //            <option key={cat.id}>{cat.name}</option>
-    //        );
-    //    }));
-    //    return result;
-    //}
+        result = result.concat(categoryList.map(cat => {
+            return (
+                <option value={cat.name} key={cat.id}>{cat.name}</option>
+            );
+        }));
+        return result;
+    }
+
+    if (loading) {
+        return <div>Loading data...</div>
+    }
 
     return (
         <div>
@@ -107,14 +132,11 @@ function Cars() {
                 </tbody>
             </table>
             <select onChange={catChange}>
-                <option value="five_seat">Five seat</option>
-                <option value="off_road">Off-road</option>
-                <option value="race_car">Race car</option>
-                <option value="none">None</option>
-                {/*{selecting()}*/}
+                {selecting()}
+                <option value = "none" >None</option>
             </select>
             <br></br>
-            <button /*onClick={sendCategory}*/>Filter</button>
+            <button onClick={sendCategory} >Filter</button>
         </div>
     );
 

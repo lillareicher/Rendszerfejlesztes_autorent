@@ -24,10 +24,10 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalModels);
         }
 
-        [HttpGet("{carId}")]  //api/rental/getrentals/"id"
-        public async Task<IActionResult> getRentals (string carId)
+        [HttpGet("{carId}")]  //api/rental/GetRentals/"id"
+        public async Task<IActionResult> GetRentals (string carId)
         {
-            var rentalsByID = await _rentalService.getRentals(carId);
+            var rentalsByID = await _rentalService.GetRentals(carId);
             return Ok(rentalsByID);
         }
         [HttpPost]
