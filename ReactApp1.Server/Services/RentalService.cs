@@ -100,7 +100,7 @@ namespace ReactApp1.Server.Services
             DateTime toDate = DateTime.Parse(_toDate);
             bool validDate = false;
             bool dateIsFree = false;
-            bool checkFromDate = true , checkToDate = true;
+            bool checkFromDate = true , checkToDate = true, checkInBetween = true;
             var rentals = await ListRentals();
             foreach (var rental in rentals)
             {
@@ -108,12 +108,13 @@ namespace ReactApp1.Server.Services
                 {
                     if (fromDate >= rental.FromDate && fromDate <= rental.ToDate) { checkFromDate = false;}
                     if (toDate >= rental.FromDate && toDate <= rental.ToDate) { checkToDate = false; }
+                    if ((rental.FromDate >= fromDate && rental.ToDate >= fromDate) && (rental.FromDate <= toDate && rental.ToDate <= toDate)) { checkInBetween = false; }
                 }
             }
 
             if (fromDate <= toDate) { validDate = true; }
             if (checkFromDate && checkToDate) { dateIsFree = true; }
-            if(validDate && dateIsFree) { return true; }
+            if(validDate && dateIsFree && checkInBetween) { return true; }
             return false;
         }
 
