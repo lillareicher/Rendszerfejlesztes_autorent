@@ -11,7 +11,6 @@ function CarDetails() {
     const params = useParams();
     const { carId } = params;
 
-    //const flag = null;
 
     useEffect(() => {
 
@@ -24,30 +23,11 @@ function CarDetails() {
         }
 
         async function getRents() {
-            const data = carId;
 
-            fetch('https://localhost:7045/api/rental/getrentals', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            }).then((response) => {
-                console.log("getRents(), response");
-                console.log(response);
+            const response = await fetch('https://localhost:7045/api/rental/getrentals/' + carId);
+            const data = await response.json();
+            setRentsList(data);
 
-                const res = response.json();
-
-                console.log("getRents(), res");
-                console.log(res);
-
-                setRentsList(res);
-
-                console.log("getRents(), rentsList");
-                console.log(rentsList);
-            }).catch(error => {
-                console.log(error);
-            });
         }
 
         getCarsList();
@@ -68,22 +48,20 @@ function CarDetails() {
         );
     }
 
-    //function listRents() {
-    //    //console.log("listRents(), rentsList");
-    //    //console.log(rentsList);
-    //    var result = new Array();
+    function listRents() {
+        var result = new Array();
 
-    //    result = result.concat(rentsList.map(rent => {
-    //        return (
-    //            <tr key={rent.id}>
-    //                <td>{rent.fromDate}</td>
-    //                <td>{rent.toDate}</td>
-    //            </tr>
-    //        );
-    //    }));
+        result = result.concat(rentsList.map(rent => {
+            return (
+                <tr key={rent.id}>
+                    <td>{rent.fromDate}</td>
+                    <td>{rent.toDate}</td>
+                </tr>
+            );
+        }));
 
-    //    return result;
-    //}
+        return result;
+    }
 
     function fromChange(event) {
         setFromDate(event.target.value);
@@ -116,37 +94,32 @@ function CarDetails() {
     //    });
     //}
 
-    //async function sendReserv() {
+    async function sendReserv() {
     //el kell helyezni a f�ggv�nyt a reserve gombba!!!
-    //const data = {
-    //    carId: carId,
-    //    fromDate: fromDate,
-    //    toDate: toDate
-    //};
+        const data = {
+            CarId: carId,
+            FromDate: fromDate,
+            ToDate: toDate
+        };
 
-    //fetch('https://localhost:7045/api/rental/validdate', {
-    //    method: 'POST',
-    //    headers: {
-    //        'Content-Type': 'application/json',
-    //    },
-    //    body: JSON.stringify(data),
-    //}).then((response) => {
-    //    if (response) {
-    //        //�j k�r�s k�ld�se rent l�trehoz�s�hoz
-    //        makeReserv();
-    //        //sikeress�g kiir�sa
-    //        return (
-    //            <h3>Your reservation has been succesful!</h3>
-    //        );
-    //    } else if (!response) {
-    //        return (
-    //            <h3>Invalid reservation. Please check the dates.</h3>
-    //        );
-    //    }
-    //}).catch(error => {
-    //    console.log(error);
-    //});
-    //}
+    fetch('https://localhost:7045/api/rental/validdate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }).then((response) => {
+        if (response) {
+            //makeReserv();
+            window.alert("Your reservation has been succesful!");
+        } else if (!response) {
+            window.alert("Invalid reservation. Please check the dates.");
+        }
+    }).catch(error => {
+        console.log(error);
+    });
+    }
+
 
     if (loading) {
         return <div>Loading data...</div>
@@ -185,15 +158,7 @@ function CarDetails() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td >04.01</td>
-                            <td >04.05</td>
-                        </tr>
-                        <tr>
-                            <td >04.10</td>
-                            <td >04.12</td>
-                        </tr>
-                        {/*listRents()*/}
+                        {listRents()}
                     </tbody>
                 </table>
 
@@ -206,9 +171,8 @@ function CarDetails() {
                 <br></br>
                 <label>End date:</label> <input name="endDate" type="date" onChange={toChange}></input>
                 <br></br>
-                <button  >Reserve</button>
-                {/*reserveState() */}
-
+                <button onClick={sendReserv}>Reserve</button>
+                
             </div>
         </div>
     );
