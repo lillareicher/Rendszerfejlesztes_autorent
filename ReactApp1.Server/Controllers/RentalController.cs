@@ -31,9 +31,9 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalsByID);
         }
         [HttpPost]
-        public async Task<IActionResult> ValidDate(string CarId, DateTime FromDate, DateTime ToDate)
+        public async Task<IActionResult> ValidDate(RentalModel newModel)
         {
-            var succeded = await _rentalService.ValidDate(CarId, FromDate, ToDate);
+            var succeded = await _rentalService.ValidDate(newModel);
                 return Ok(succeded); 
             //return Unauthorized();
         }
