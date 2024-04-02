@@ -34,11 +34,8 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> ValidDate(string CarId, DateTime FromDate, DateTime ToDate)
         {
             var succeded = await _rentalService.ValidDate(CarId, FromDate, ToDate);
-            if (succeded) 
-            { 
-                return Ok(); 
-            }
-            return Unauthorized();
+                return Ok(succeded); 
+            //return Unauthorized();
         }
         [HttpPost]
         public async Task<IActionResult> NewReservation(string UserId, string CarId, DateTime FromDate, DateTime ToDate, DateTime Created)
