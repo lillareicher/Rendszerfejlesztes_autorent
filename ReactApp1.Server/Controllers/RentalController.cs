@@ -44,7 +44,7 @@ namespace ReactApp1.Server.Controllers
                 return Ok(succeded); 
             //return Unauthorized();
         }
-        [HttpPost]2
+        [HttpPost]
         public async Task<IActionResult> NewReservation(string UserId, string CarId, DateTime FromDate, DateTime ToDate, DateTime Created)
         {
             return Ok();

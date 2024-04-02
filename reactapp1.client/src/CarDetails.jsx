@@ -6,8 +6,8 @@ function CarDetails() {
     const [loading, setLoading] = useState(true);
     const [carsList, setCarsList] = useState([]);
     const [rentsList, setRentsList] = useState([]);
-    const [fromDate, setFromDate] = useState([]);
-    const [toDate, setToDate] = useState([]);
+    const [fromDate, setFromDate] = useState(" ");
+    const [toDate, setToDate] = useState(" ");
     const params = useParams();
     const { carId } = params;
 
@@ -63,11 +63,15 @@ function CarDetails() {
         return result;
     }
 
-    function fromChange(event) {
-        setFromDate(event.target.value);
+    async function fromChange(event) {
+        await setFromDate(event.target.value);
+        await setFromDate(event.target.value);
+
     }
-    function toChange(event) {
-        setToDate(event.target.value);
+    async function toChange(event) {
+        await setToDate(event.target.value);
+        await setToDate(event.target.value);
+
     }
 
     //function makeReserv() {
@@ -95,29 +99,44 @@ function CarDetails() {
     //}
 
     async function sendReserv() {
-    //el kell helyezni a f�ggv�nyt a reserve gombba!!!
-        const data = {
-            CarId: carId,
-            FromDate: fromDate + "T00:00:00",
-            ToDate: toDate + "T00:00:00"
-        };
+        console.log(fromDate);
+        console.log(toDate);
 
-    fetch('https://localhost:7045/api/rental/validdate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    }).then((response) => {
-        if (response) {
-            //makeReserv();
-            window.alert("Your reservation has been succesful!");
-        } else if (!response) {
-            window.alert("Invalid reservation. Please check the dates.");
-        }
-    }).catch(error => {
-        console.log(error);
-    });
+
+        const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        console.log(response);
+        const data = await response.json();
+            if (data) {
+                console.log(data);
+                window.alert("Your reservation has been succesful!");
+            } else {
+                window.alert("Invalid reservation. Please check the dates.");
+            }
+
+        //async function getRents() {
+
+        //    const response = await fetch('https://localhost:7045/api/rental/getrentals/' + carId);
+        //    const data = await response.json();
+        //    setRentsList(data);
+
+        //}
+
+    //fetch('https://localhost:7045/api/rental/validdate', {
+    //    method: 'POST',
+    //    headers: {
+    //        'Content-Type': 'application/json',
+    //    },
+    //    body: JSON.stringify(data),
+    //}).then((response) => {
+    //    if (response) {
+    //        //makeReserv();
+    //        window.alert("Your reservation has been succesful!");
+    //    } else if (!response) {
+    //        window.alert("Invalid reservation. Please check the dates.");
+    //    }
+    //}).catch(error => {
+    //    console.log(error);
+    //});
     }
 
 
