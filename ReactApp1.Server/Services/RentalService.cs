@@ -11,7 +11,7 @@ namespace ReactApp1.Server.Services
     {
         Task<List<RentalModel>> ListRentals();
         Task<List<RentalModel>> GetRentals(string carId);
-        Task<bool> ValidDate(string CarId, DateTime FromDate, DateTime ToDate);
+        Task<bool> ValidDate(RentalModel newModel);
     }
 
     public class RentalService : IRentalService
@@ -78,7 +78,7 @@ namespace ReactApp1.Server.Services
             return rentalsById;
         }
 
-        public async Task<bool> ValidDate(string CarId, DateTime FromDate, DateTime ToDate)
+        public async Task<bool> ValidDate(RentalModel newModel)
         {
             bool validDate = false;
             bool dateIsFree = false;
@@ -86,14 +86,14 @@ namespace ReactApp1.Server.Services
             var rentals = await ListRentals();
             foreach (var rental in rentals)
             {
-                if (rental.CarId == CarId)
+                if (rental.CarId == newModel.CarId)
                 {
-                    if (!(FromDate >= rental.FromDate && FromDate <= rental.ToDate)) { checkFromDate = true;}
-                    if (!(ToDate >= rental.FromDate && ToDate <= rental.ToDate)) { checkToDate = true; }
+                    if (!(newModel.FromDate >= rental.FromDate && newModel.FromDate <= rental.ToDate)) { checkFromDate = true;}
+                    if (!(newModel.ToDate >= rental.FromDate && newModel.ToDate <= rental.ToDate)) { checkToDate = true; }
                 }
             }
 
-            if (FromDate <= ToDate) { validDate = true; }
+            if (newModel.FromDate <= newModel.ToDate) { validDate = true; }
             if (checkFromDate && checkToDate) { dateIsFree = true; }
             if(validDate && dateIsFree) { return true; }
             return false;
