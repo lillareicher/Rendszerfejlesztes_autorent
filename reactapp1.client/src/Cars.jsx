@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavMenu from "./NavMenu"
 
 
 
@@ -116,26 +117,33 @@ function Cars() {
 
     return (
         <div>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Daily Price</th>
-                        <th>Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listing()}
-                </tbody>
-            </table>
-            <select onChange={catChange}>
-                {selecting()}
-                <option value = "none" >None</option>
-            </select>
-            <br></br>
-            <button onClick={sendCategory} >Filter</button>
+            <NavMenu/>
+            <div>
+
+            </div>
+            <div>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Daily Price</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listing()}
+                    </tbody>
+                </table>
+                <select onChange={catChange}>
+                    {selecting()}
+                    <option value = "none" >None</option>
+                </select>
+                <br></br>
+                <button onClick={sendCategory} >Filter</button>
+            </div>
+
         </div>
     );
 

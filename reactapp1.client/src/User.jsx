@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import NavMenu from "./NavMenu"
 
 function User() {
     const params = useParams();
@@ -51,11 +52,12 @@ function User() {
 
     return (
         <div>
-        
+            <NavMenu/>
+
             <h2>Hello, {user.name}!</h2>
-            Account information:
+            <u>Account information:</u>
             <br></br>
-            Username: {user.userName}
+            <b>Username:</b> {user.userName}
             <br></br>
             Rents:
             <table border = "1">

@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import NavMenu from "./NavMenu"
 //import './cardetails.css';
 
 function CarDetails() {
@@ -44,7 +45,7 @@ function CarDetails() {
                 <td>{currentCar.brand}</td>
                 <td>{currentCar.model}</td>
                 <td>{currentCar.categoryId}</td>
-                <td>{currentCar.dailyPrice}</td>
+                <td>{currentCar.dailyPrice + "$"}</td>
             </tr>
         );
     }
@@ -130,7 +131,7 @@ function CarDetails() {
 
     return (
         <div>
-
+            <NavMenu/>
             <div>
                 About this car:
                 <table border="1">
