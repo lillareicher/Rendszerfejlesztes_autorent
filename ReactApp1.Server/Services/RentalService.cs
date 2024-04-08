@@ -25,7 +25,7 @@ namespace ReactApp1.Server.Services
         int rentCount = 5;
         private readonly ICarService _carService;
 
-        public RentalService(ICarService carService, IRentalService rentalService) 
+        public RentalService(ICarService carService) 
         {
             _carService = carService;
         }
@@ -145,7 +145,6 @@ namespace ReactApp1.Server.Services
         public async Task<List<RentalModel>> NewReservation(string userId, string carId, string _fromDate, string _toDate)
         {
             var rentals = await ListRentals();
-            var valid = await ValidDate(carId, _fromDate, _toDate);
             RentalModel rm5 = new RentalModel();
 
             DateTime fromDate = DateTime.Parse(_fromDate);
@@ -160,7 +159,7 @@ namespace ReactApp1.Server.Services
             rm5.ToDate = toDate;
             rm5.Created = created;
 
-            if (rentals.Count > 0 && valid)
+            if (rentals.Count > 0 && ValidDate(carId, _fromDate, _toDate).Result)
             {
                 rentals.Add(rm5);
                 rentCount++;                
