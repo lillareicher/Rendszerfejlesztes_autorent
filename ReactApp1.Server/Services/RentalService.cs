@@ -16,22 +16,23 @@ namespace ReactApp1.Server.Services
         Task<bool> ValidDate(string carId, string _fromDate, string _toDate);
         Task<List<RentalModel>> GetUserRentals(string userId);
         Task<int> CountPrice(string carId, string _fromDate, string _toDate);
-        Task<List<RentalModel>> newReservation(string userId, string carId, string _fromDate, string _toDate);
+        Task<List<RentalModel>> NewReservation(string userId, string carId, string _fromDate, string _toDate);
     }
 
     public class RentalService : IRentalService
     {
-        List<RentalModel> rentals = new List<RentalModel>();
         bool firstRun = true;
         int rentCount = 5;
         private readonly ICarService _carService;
-        public RentalService(ICarService carService) 
+
+        public RentalService(ICarService carService, IRentalService rentalService) 
         {
             _carService = carService;
         }
 
         public async Task<List<RentalModel>> ListRentals()
         {
+            List<RentalModel> rentals = new List<RentalModel>();
             if (firstRun) {
 
                 RentalModel rm1 = new RentalModel();
@@ -141,7 +142,7 @@ namespace ReactApp1.Server.Services
             return 0;
         }
 
-        public async Task<List<RentalModel>> newReservation(string userId, string carId, string _fromDate, string _toDate)
+        public async Task<List<RentalModel>> NewReservation(string userId, string carId, string _fromDate, string _toDate)
         {
             var rentals = await ListRentals();
             var valid = await ValidDate(carId, _fromDate, _toDate);
@@ -162,8 +163,9 @@ namespace ReactApp1.Server.Services
             if (rentals.Count > 0 && valid)
             {
                 rentals.Add(rm5);
-            }           
-
+                rentCount++;                
+            }
+      
             return rentals;
         }
     }

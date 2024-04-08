@@ -55,7 +55,7 @@ namespace ReactApp1.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> NewReservation(string userId, string carId, string _fromDate, string _toDate)
         {
-            var newres = await _rentalService.newReservation(userId, carId, _fromDate, _toDate);
+            var newres = await _rentalService.NewReservation(userId, carId, _fromDate, _toDate);
 
             return Ok(newres);
         }
