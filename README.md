@@ -4,4 +4,6 @@ Visual Studio 2022, 17.9.5 verzióját használtuk, azon belül a "React and ASP
 Szükséges telepítendő packagek client mappába a futtatáshoz:
 -npm install react-bootstrap bootstrap, -npm install react-router-dom
 
-
+Minta bejelentkezési adatok:
+Felhasz.név:  John
+Jelszó:       123
