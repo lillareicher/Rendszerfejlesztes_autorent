@@ -44,16 +44,20 @@ namespace ReactApp1.Server.Controllers
                 return Ok(succeded); 
             //return Unauthorized();
         }
-        [HttpPost]
-        public async Task<IActionResult> NewReservation(string UserId, string CarId, DateTime FromDate, DateTime ToDate, DateTime Created)
-        {
-            return Ok();
-        }
+        
         [HttpGet]
         public async Task<IActionResult> CountPrice(string carId, string _fromDate, string _toDate)
         {
             var price = await _rentalService.CountPrice(carId, _fromDate, _toDate);
             return Ok(price);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> NewReservation(string userId, string carId, string _fromDate, string _toDate)
+        {
+            var newres = await _rentalService.NewReservation(userId, carId, _fromDate, _toDate);
+
+            return Ok(newres);
         }
     }
 }
