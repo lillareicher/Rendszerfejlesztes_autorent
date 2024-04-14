@@ -13,6 +13,7 @@ function CarDetails() {
     const [res, setRes] = useState(<div></div>);
     const params = useParams();
     const { carId } = params;
+    const { username } = params;
 
 
     useEffect(() => {
@@ -189,7 +190,7 @@ function CarDetails() {
 
     return (
         <div>
-            <NavMenu/>
+            <NavMenu username={username} />
             <div>
                 About this car:
                 <table border="1">

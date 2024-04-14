@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavMenu from "./NavMenu"
+import { useParams } from 'react-router-dom';
 
 
 
 function Cars() {
+    const params = useParams();
+    const { username } = params;
     const [loading, setLoading] = useState(true);
     const [carsList, setCarsList] = useState([]);
     const [categoryList, setCatList] = useState([]);
@@ -45,7 +48,7 @@ function Cars() {
                     <td>{car.brand}</td>
                     <td>{car.model}</td>
                     <td>{car.dailyPrice + "$"}</td>
-                    <td><Link to={'/cars/' + car.id}>Open</Link></td>
+                    <td><Link to={`/${username}/cars/` + car.id}>Open</Link></td>
                 </tr>
             );
         }));
@@ -117,7 +120,7 @@ function Cars() {
 
     return (
         <div>
-            <NavMenu/>
+            <NavMenu username={username} />
             <div>
 
             </div>

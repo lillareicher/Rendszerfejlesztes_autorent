@@ -52,7 +52,7 @@ function User() {
 
     return (
         <div>
-            <NavMenu/>
+            <NavMenu username={ username} />
 
             <h2>Hello, {user.name}!</h2>
             <u>Account information:</u>

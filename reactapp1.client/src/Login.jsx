@@ -24,7 +24,8 @@ function Login() {
                     throw new Error('Invalid username or password in frontend');
                 }
 
-                window.location.href = "/cars";
+                window.location.href = `/${usernameC}/cars`;
+                //window.location.href = "/cars";
                 //return response.json();
             })
             //.then((responsedata) => {
