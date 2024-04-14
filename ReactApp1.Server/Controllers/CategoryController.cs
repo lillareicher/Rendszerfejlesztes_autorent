@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ReactApp1.Server.DataContext.Model;
+using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -11,6 +11,7 @@ namespace ReactApp1.Server.Controllers
     {
         private readonly ICategoryService _categoryService;
 
+
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -19,7 +20,7 @@ namespace ReactApp1.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> ListCategories()
         {
-            List<CategoryModel> categories = await _categoryService.ListCategories();
+            List<Category> categories = await _categoryService.ListCategories();
 
             return Ok(categories);
         }

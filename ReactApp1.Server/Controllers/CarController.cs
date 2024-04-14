@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ReactApp1.Server.DataContext.Model;
+using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -19,7 +19,7 @@ namespace ReactApp1.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> ListCars()
         {
-            List<CarModel> cars = await _carService.ListCars();
+            List<Car> cars = await _carService.ListCars();
    
             return Ok(cars);
         }

@@ -1,3 +1,0 @@
-﻿
-Ide kerül a logika, a kapcsolat az adatbázissal. 
-Frontend kérés -> controller (ide nem kerül semmilyen logika, csak adatmozgatásra szolgál) -> service (adatbázisba mentés, logika)

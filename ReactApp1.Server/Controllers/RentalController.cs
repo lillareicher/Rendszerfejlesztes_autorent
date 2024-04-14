@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ReactApp1.Server.DataContext.Model;
+using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -25,20 +25,20 @@ namespace ReactApp1.Server.Controllers
         }
 
         [HttpGet("{carId}")]  //api/rental/GetRentals/"id"
-        public async Task<IActionResult> GetRentals (string carId)
+        public async Task<IActionResult> GetRentals (int carId)
         {
             var rentalsByID = await _rentalService.GetRentals(carId);
             return Ok(rentalsByID);
         }
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserRentals(string userId)
+        public async Task<IActionResult> GetUserRentals(int userId)
         {
             var rentalsByUserID = await _rentalService.GetUserRentals(userId);
             return Ok(rentalsByUserID);
         }
 
         [HttpGet]
-        public async Task<IActionResult> ValidDate(string carId, string _fromDate, string _toDate)
+        public async Task<IActionResult> ValidDate(int carId, string _fromDate, string _toDate)
         {
             var succeded = await _rentalService.ValidDate(carId, _fromDate, _toDate);
                 return Ok(succeded); 
@@ -46,14 +46,14 @@ namespace ReactApp1.Server.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> CountPrice(string carId, string _fromDate, string _toDate)
+        public async Task<IActionResult> CountPrice(int carId, string _fromDate, string _toDate)
         {
             var price = await _rentalService.CountPrice(carId, _fromDate, _toDate);
             return Ok(price);
         }
 
         [HttpGet]
-        public async Task<IActionResult> NewReservation(string userId, string carId, string _fromDate, string _toDate)
+        public async Task<IActionResult> NewReservation(int userId, int carId, string _fromDate, string _toDate)
         {
             var newres = await _rentalService.NewReservation(userId, carId, _fromDate, _toDate);
 

@@ -1,47 +1,54 @@
-﻿using ReactApp1.Server.DataContext.Model;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using ReactApp1.Server.Data;
+using ReactApp1.Server.Models.Entities;
+using ReactApp1.Server.Models.Model;
+
 namespace ReactApp1.Server.Services
 {
     public interface ICarService // interface 
     {
-        Task<List<CarModel>> ListCars();
-        Task<List<CarModel>> FilterCars(string categoryName);
+        Task<List<Car>> ListCars();
+        Task<List<Car>> FilterCars(string categoryName);
     }
 
     public class CarService : ICarService
     {
         private readonly ICategoryService _categoryService;
+        private readonly DataContext _context;
 
-        public CarService(ICategoryService categoryService) 
+        public CarService(ICategoryService categoryService, DataContext context) 
         { 
             _categoryService = categoryService;
+            _context = context;
         }
 
-        public async Task<List<CarModel>> ListCars()
+        public async Task<List<Car>> ListCars()
         {
-            List<CarModel> cars = new List<CarModel>();
-            CarModel car1 = new CarModel() { Id = "c1", CategoryId = "ct1", Brand = "Toyota", Model = "Carmy", DailyPrice = 50 };
-            CarModel car2 = new CarModel() { Id = "c2", CategoryId = "ct2", Brand = "Honda", Model = "Civic", DailyPrice = 45 };
-            CarModel car3 = new CarModel() { Id = "c3", CategoryId = "ct1", Brand = "Toyota", Model = "Yaris", DailyPrice = 50 };
-            CarModel car4 = new CarModel() { Id = "c4", CategoryId = "ct4", Brand = "Ford", Model = "Fiesta", DailyPrice = 50 };
+            var cars = await _context.Car.ToListAsync();
+            //Car car1 = new Car() { Id = "c1", CategoryId = "ct1", Brand = "Toyota", Model = "Carmy", DailyPrice = 50 };
+            //Car car2 = new Car() { Id = "c2", CategoryId = "ct2", Brand = "Honda", Model = "Civic", DailyPrice = 45 };
+            //Car car3 = new Car() { Id = "c3", CategoryId = "ct1", Brand = "Toyota", Model = "Yaris", DailyPrice = 50 };
+            //Car car4 = new Car() { Id = "c4", CategoryId = "ct4", Brand = "Ford", Model = "Fiesta", DailyPrice = 50 };
 
-            cars.Add(car1);
-            cars.Add(car2);
-            cars.Add(car3);
-            cars.Add(car4);
+            //cars.Add(car1);
+            //cars.Add(car2);
+            //cars.Add(car3);
+            //cars.Add(car4);
 
             return cars;
         }
 
-        public async Task<List<CarModel>> FilterCars(string categoryName)
+        public async Task<List<Car>> FilterCars(string categoryName)
         {
             var cars = await ListCars();
             var filteredCategories = await _categoryService.FilterCategories(categoryName);
-            var filteredCars = new List<CarModel>();
+            var filteredCars = new List<Car>();
 
             foreach (var car in cars) 
             { 
