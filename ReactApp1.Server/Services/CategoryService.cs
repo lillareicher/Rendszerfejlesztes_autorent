@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Entities;
-using ReactApp1.Server.Models.Model;
 
 namespace ReactApp1.Server.Services
 {
@@ -20,7 +13,7 @@ namespace ReactApp1.Server.Services
     public class CategoryService : ICategoryService
     {
         private readonly DataContext _context;
-        public CategoryService(DataContext context) 
+        public CategoryService(DataContext context)
         {
             _context = context;
         }
@@ -44,20 +37,20 @@ namespace ReactApp1.Server.Services
             return categories;
         }
 
-        public async Task<List<Category>> FilterCategories (string categoryName)
+        public async Task<List<Category>> FilterCategories(string categoryName)
         {
             List<Category> categories = await ListCategories();
             List<Category> filteredCategories = new List<Category>();
 
-            foreach (var category in categories) 
-            { 
+            foreach (var category in categories)
+            {
                 if (categoryName == category.Name)
                 {
                     filteredCategories.Add(category);
                 }
             }
 
-            return filteredCategories;          
+            return filteredCategories;
         }
     }
 

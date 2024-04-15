@@ -1,17 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Services;
-using Microsoft.OpenApi.Models;
-using ReactApp1.Server.Models.Entities;
-using ReactApp1.Server.Models.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DataContext> (options =>
+builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -34,6 +30,7 @@ using (var scope = app.Services.CreateScope())
     var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
     ctx.Database.Migrate();
 }
+
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

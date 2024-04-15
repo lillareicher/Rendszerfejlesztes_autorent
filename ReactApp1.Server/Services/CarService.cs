@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Entities;
-using ReactApp1.Server.Models.Model;
 
 namespace ReactApp1.Server.Services
 {
@@ -22,8 +15,8 @@ namespace ReactApp1.Server.Services
         private readonly ICategoryService _categoryService;
         private readonly DataContext _context;
 
-        public CarService(ICategoryService categoryService, DataContext context) 
-        { 
+        public CarService(ICategoryService categoryService, DataContext context)
+        {
             _categoryService = categoryService;
             _context = context;
         }
@@ -50,11 +43,11 @@ namespace ReactApp1.Server.Services
             var filteredCategories = await _categoryService.FilterCategories(categoryName);
             var filteredCars = new List<Car>();
 
-            foreach (var car in cars) 
-            { 
-                foreach(var category in filteredCategories)
+            foreach (var car in cars)
+            {
+                foreach (var category in filteredCategories)
                 {
-                    if(car.CategoryId == category.Id)
+                    if (car.CategoryId == category.Id)
                     {
                         filteredCars.Add(car);
                     }

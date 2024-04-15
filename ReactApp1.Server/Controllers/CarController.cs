@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Services;
 
@@ -20,7 +19,7 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> ListCars()
         {
             List<Car> cars = await _carService.ListCars();
-   
+
             return Ok(cars);
         }
 

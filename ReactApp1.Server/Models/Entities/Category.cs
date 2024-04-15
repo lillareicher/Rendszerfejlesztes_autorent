@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ReactApp1.Server.Models.Entities
+﻿namespace ReactApp1.Server.Models.Entities
 {
     public class Category
     {

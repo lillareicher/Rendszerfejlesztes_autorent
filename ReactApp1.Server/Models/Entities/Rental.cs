@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ReactApp1.Server.Models.Entities
+﻿namespace ReactApp1.Server.Models.Entities
 {
     public class Rental
     {
@@ -11,7 +9,7 @@ namespace ReactApp1.Server.Models.Entities
         public int CarId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public DateTime? Created {  get; set; }
+        public DateTime? Created { get; set; }
     }
 
 }

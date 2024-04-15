@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ReactApp1.Server.Models.Entities { 
+﻿namespace ReactApp1.Server.Models.Entities
+{
     public class Car
     {
         public Category Category { get; set; }

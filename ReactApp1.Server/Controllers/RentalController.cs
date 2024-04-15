@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using ReactApp1.Server.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -11,7 +9,7 @@ namespace ReactApp1.Server.Controllers
     {
         private readonly IRentalService _rentalService;
 
-        public RentalController(IRentalService rentalService) 
+        public RentalController(IRentalService rentalService)
         {
             _rentalService = rentalService;
         }
@@ -25,7 +23,7 @@ namespace ReactApp1.Server.Controllers
         }
 
         [HttpGet("{carId}")]  //api/rental/GetRentals/"id"
-        public async Task<IActionResult> GetRentals (int carId)
+        public async Task<IActionResult> GetRentals(int carId)
         {
             var rentalsByID = await _rentalService.GetRentals(carId);
             return Ok(rentalsByID);
@@ -41,10 +39,10 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> ValidDate(int carId, string _fromDate, string _toDate)
         {
             var succeded = await _rentalService.ValidDate(carId, _fromDate, _toDate);
-                return Ok(succeded); 
+            return Ok(succeded);
             //return Unauthorized();
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> CountPrice(int carId, string _fromDate, string _toDate)
         {

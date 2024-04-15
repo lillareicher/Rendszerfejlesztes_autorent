@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Models.Model;
 using ReactApp1.Server.Services;
@@ -17,9 +16,9 @@ namespace ReactApp1.Server.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> Login(Login model)
+        public async Task<IActionResult> Login(Login model)
         {
-           var succeeded = await _authService.Login(model);
+            var succeeded = await _authService.Login(model);
 
             if (succeeded)
                 return Ok();

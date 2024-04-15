@@ -12,8 +12,8 @@ using ReactApp1.Server.Data;
 namespace ReactApp1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240413180344_initialcreate")]
-    partial class initialcreate
+    [Migration("20240415160501_AddCars")]
+    partial class AddCars
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ReactApp1.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Car", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("Car");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Category", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Rental", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("Rental");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Sales", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Sales", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,7 +127,7 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("Sales");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.User", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -152,9 +152,9 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Car", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Car", b =>
                 {
-                    b.HasOne("ReactApp1.Server.DataContext.Model.Category", "Category")
+                    b.HasOne("ReactApp1.Server.Models.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -163,15 +163,15 @@ namespace ReactApp1.Server.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Rental", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Rental", b =>
                 {
-                    b.HasOne("ReactApp1.Server.DataContext.Model.Car", "Car")
+                    b.HasOne("ReactApp1.Server.Models.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ReactApp1.Server.DataContext.Model.User", "User")
+                    b.HasOne("ReactApp1.Server.Models.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -182,9 +182,9 @@ namespace ReactApp1.Server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ReactApp1.Server.DataContext.Model.Sales", b =>
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Sales", b =>
                 {
-                    b.HasOne("ReactApp1.Server.DataContext.Model.Car", "Car")
+                    b.HasOne("ReactApp1.Server.Models.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)

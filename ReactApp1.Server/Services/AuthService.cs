@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Models.Model;
@@ -18,7 +12,7 @@ namespace ReactApp1.Server.Services
         Task<User> GetUser(string username);
     }
 
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly DataContext _context;
 
@@ -49,7 +43,7 @@ namespace ReactApp1.Server.Services
             var users = await ListUsers();
             foreach (var user in users)
             {
-                if (user.UserName == model.Username && user.Password == model.Password) 
+                if (user.UserName == model.Username && user.Password == model.Password)
                     return true;
             }
 
@@ -61,13 +55,13 @@ namespace ReactApp1.Server.Services
             var users = await ListUsers();
             foreach (var user in users)
             {
-                if (user.UserName == username) 
+                if (user.UserName == username)
                     return user;
             }
 
             return new User();
         }
-   
+
     }
 
 

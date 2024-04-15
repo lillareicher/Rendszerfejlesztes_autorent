@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ReactApp1.Server.Models.Entities
+﻿namespace ReactApp1.Server.Models.Entities
 {
     public class User
     {
@@ -9,6 +7,6 @@ namespace ReactApp1.Server.Models.Entities
         public string Name { get; set; }
         public string Password { get; set; }
     }
-    
+
 
 }
