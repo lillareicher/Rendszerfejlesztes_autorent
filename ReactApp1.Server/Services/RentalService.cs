@@ -131,7 +131,7 @@ namespace ReactApp1.Server.Services
             List<Car> carTypes = await _carService.ListCars();
             foreach (var carType in carTypes)
             {
-                if(carType.Id == carId)
+                if(carType.Id == carId) 
                 {
                     return days * carType.DailyPrice;
                 }
