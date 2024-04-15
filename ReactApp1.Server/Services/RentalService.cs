@@ -131,7 +131,7 @@ namespace ReactApp1.Server.Services
             List<Car> carTypes = await _carService.ListCars();
             foreach (var carType in carTypes)
             {
-                if (carType.Id == carId)
+                if(carType.Id == carId)
                 {
                     return days * carType.DailyPrice;
                 }
@@ -147,12 +147,18 @@ namespace ReactApp1.Server.Services
             DateTime fromDate = DateTime.Parse(_fromDate);
             DateTime toDate = DateTime.Parse(_toDate);
             DateTime created = DateTime.UtcNow;
-            int counter = rentals.Count+1;
+            int counter = 1;
 
+            rm5.Id = counter;
+            rm5.CarId = carId;
+            rm5.UserId = userId;
+            rm5.FromDate = fromDate;
+            rm5.ToDate = toDate;
+            rm5.Created = created;
 
             if (rentals.Count > 0 && ValidDate(carId, _fromDate, _toDate).Result)
             {
-                rentals.Add();
+                rentals.Add(rm5);
                 rentCount++;
             }
 
