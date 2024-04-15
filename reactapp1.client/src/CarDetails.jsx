@@ -119,7 +119,7 @@ function CarDetails() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>John</td>
+                        <td>{username}</td>
                         <td>{carId}</td>
                         <td>{fromDate}</td>
                         <td>{toDate}</td>
