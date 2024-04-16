@@ -24,16 +24,6 @@ namespace ReactApp1.Server.Services
         public async Task<List<Car>> ListCars()
         {
             var cars = await _context.Car.ToListAsync();
-            //Car car1 = new Car() { Id = "c1", CategoryId = "ct1", Brand = "Toyota", Model = "Carmy", DailyPrice = 50 };
-            //Car car2 = new Car() { Id = "c2", CategoryId = "ct2", Brand = "Honda", Model = "Civic", DailyPrice = 45 };
-            //Car car3 = new Car() { Id = "c3", CategoryId = "ct1", Brand = "Toyota", Model = "Yaris", DailyPrice = 50 };
-            //Car car4 = new Car() { Id = "c4", CategoryId = "ct4", Brand = "Ford", Model = "Fiesta", DailyPrice = 50 };
-
-            //cars.Add(car1);
-            //cars.Add(car2);
-            //cars.Add(car3);
-            //cars.Add(car4);
-
             return cars;
         }
 

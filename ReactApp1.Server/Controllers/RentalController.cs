@@ -28,10 +28,11 @@ namespace ReactApp1.Server.Controllers
             var rentalsByID = await _rentalService.GetRentals(carId);
             return Ok(rentalsByID);
         }
+
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserRentals(int userId)
+        public async Task<IActionResult> GetUserRentals(string Username)
         {
-            var rentalsByUserID = await _rentalService.GetUserRentals(userId);
+            var rentalsByUserID = await _rentalService.GetUserRentals(Username);
             return Ok(rentalsByUserID);
         }
 
@@ -57,6 +58,7 @@ namespace ReactApp1.Server.Controllers
 
             return Ok(succeded);
         }
+
         [HttpGet]
         public async Task<IActionResult> DeleteReservation(int rentalId)
         {

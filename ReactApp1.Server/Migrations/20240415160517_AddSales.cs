@@ -10,7 +10,10 @@ namespace ReactApp1.Server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.Sql($"INSERT INTO Sales(CarId, Description, Percentage) VALUES " +
+                $"(1, 'Only for the end of the month!', 20), " +
+                $"(3, 'Unmissable offer!', 30) "
+                );
         }
 
         /// <inheritdoc />

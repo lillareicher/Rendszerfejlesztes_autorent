@@ -1,7 +1,6 @@
 ﻿dotnet ef migrations add Teszt
 dotnet ef migrations remove
 
-migrationBuilder.Sql($"INSERT INTO User(UserName, Name, Password) VALUES " +
-                $"('John','John Andrews','123')," +
-                $"('Jane','Jane Anderson','456')");
-        
+sqllocaldb stop
+sqllocaldb delete
+Update-Database

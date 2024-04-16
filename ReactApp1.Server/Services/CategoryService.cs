@@ -22,18 +22,6 @@ namespace ReactApp1.Server.Services
         public async Task<List<Category>> ListCategories()
         {
             var categories = await _context.Category.ToListAsync();
-            //string text = File.ReadAllText(@"./Categories.json");
-            //var category = JsonSerializer.Deserialize<CategoryModel>(text);
-            //Category cat1 = new Category() {Id = "ct1", Name = "Race"};
-            //Category cat2 = new Category() {Id = "ct2", Name = "Off-road"};
-            //Category cat3 = new Category() {Id = "ct3", Name = "City"};
-            //Category cat4 = new Category() {Id = "ct4", Name = "Cabrio"};
-
-            //categories.Add(cat1);
-            //categories.Add(cat2);
-            //categories.Add(cat3);
-            //categories.Add(cat4);
-
             return categories;
         }
 

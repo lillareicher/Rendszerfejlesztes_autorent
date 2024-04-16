@@ -98,7 +98,7 @@ namespace ReactApp1.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CarId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Percent = table.Column<int>(type: "int", nullable: false)
+                    Percentage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

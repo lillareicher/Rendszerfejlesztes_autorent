@@ -10,7 +10,7 @@ namespace ReactApp1.Server.Services
         Task<List<Rental>> ListRentals();
         Task<List<Rental>> GetRentals(int carId);
         Task<bool> ValidDate(int carId, string _fromDate, string _toDate);
-        Task<List<Rental>> GetUserRentals(int userId);
+        Task<List<Rental>> GetUserRentals(string Username);
         Task<int> CountPrice(int carId, string _fromDate, string _toDate);
         Task<bool> NewReservation(int userId, int carId, string _fromDate, string _toDate);
         Task<bool> DeleteReservation(int rentalId);
@@ -44,13 +44,13 @@ namespace ReactApp1.Server.Services
             return rentalsById;
         }
 
-        public async Task<List<Rental>> GetUserRentals(int userId)
+        public async Task<List<Rental>> GetUserRentals(string Username)
         {
             var rentals = await ListRentals();
             List<Rental> rentalsByUserId = new List<Rental>();
             foreach (var rental in rentals)
             {
-                if (rental.UserId == userId) { rentalsByUserId.Add(rental); }
+                if (rental.User.UserName == Username) { rentalsByUserId.Add(rental); }
             }
             return rentalsByUserId;
         }
@@ -113,7 +113,7 @@ namespace ReactApp1.Server.Services
             var carExists = await _context.Car.FirstOrDefaultAsync(c => c.Id == carId);
             var idExists = await _context.User.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (carExists != null && idExists != null )
+            if (carExists != null && idExists != null && ValidDate(carId, _fromDate, _toDate).Result)
             {
                 await _context.AddAsync(rm);
                 await _context.SaveChangesAsync();
@@ -121,6 +121,7 @@ namespace ReactApp1.Server.Services
             }
             return false;
         }
+
         public async Task<bool> DeleteReservation(int rentalId)
         {
             var rental = await _context.Rental.FirstAsync(r => r.Id == rentalId);
