@@ -80,149 +80,21 @@ function CarDetails() {
 
     async function makeReserv() {
 
-        //var newCarId = Integer.parse(carId);
-        var newCarId = parseInt(carId);
+        console.log(carId);
 
-        const data = {
-            userId: 1,
-            carId: { newCarId},
-            _fromDate: { newCarId },
-            _toDate: { toDate }
-        };
+        const response = await fetch('https://localhost:7045/api/rental/newreservation?userId=1' + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        const data = await response.json();
         console.log(data);
 
-        fetch('https://localhost:7045/api/rental/newreservation', {
-            method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-        }).then((response) => {
-            if (response) {
-                console.log("Reservation saved.");
-                //window.location.reload();
-            } else {
-                console.log("Reservation not saved.")
-            }
-        });
-
-
-        //const data = {
-        //    username: usernameC,
-        //    password: passwordC
-        //};
-
-
-        //fetch('https://localhost:7045/api/auth/login', { // külön fájlba kiszervezni const-ként a lekéréseket
-        //    method: 'POST',
-        //    headers: {
-        //        'Content-Type': 'application/json',
-        //    },
-        //    body: JSON.stringify(data),
-        //})
-        //    .then((response) => {
-        //        if (!response.ok) {
-        //            throw new Error('Invalid username or password in frontend');
-        //        }
-
-        //        window.location.href = `/${usernameC}/cars`;
-        //        //window.location.href = "/cars";
-        //        //return response.json();
-        //    })
-        //    //.then((responsedata) => {
-        //    //    localStorage.setItem('token', responsedata.Token);
-        //    //    
-        //    //})
-        //    .catch(error => {
-        //        console.log(error);
-        //    });
-
-
-
-
-
-
-
-        //const curDate = new Date();
-
-        ////onsole.log(curDate.getDate());
-        //var result = curDate.getFullYear() + "-";
-        //if (curDate.getMonth() < 9) {
-        //    result += "0" + (curDate.getMonth() + 1);
+        window.location.reload();
+        //if (data) {
+        //    console.log("makeReserve succesful");
         //} else {
-        //    result += curDate.getMonth();
+        //    console.log("makeReserve not succesful");
         //}
-
-        //result += "-";
-
-        //if (curDate.getDay() < 10) {
-        //    result += "0" + curDate.getDate();
-        //} else {
-        //    result += curDate.getDate();
-        //}
-
-        //const response = await fetch('https://localhost:7045/api/rental/countprice?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
-        //const data = await response.json();
-
-
-
-        ////var result = curDate.getFullYear() + "-" + curDate.getMonth() + "-" + curDate.getDay();
-
-        //setRes(<div>
-        //    New reservation details:
-        //    <table>
-        //        <thead>
-        //            <tr>
-        //                <th>Username</th>
-        //                <th>CarId</th>
-        //                <th>From</th>
-        //                <th>To</th>
-        //                <th>Created</th>
-        //                <th>Price</th>
-        //            </tr>
-        //        </thead>
-        //        <tbody>
-        //            <tr>
-        //                <td>{username}</td>
-        //                <td>{carId}</td>
-        //                <td>{fromDate}</td>
-        //                <td>{toDate}</td>
-        //                <td>{result}</td>
-        //                <td>{data}$</td>
-        //            </tr>
-        //        </tbody>
-        //    </table>
-        //</div>);
-
-        //return (
-
-
-        //);
-
     }
 
 
-    //    const data = {
-    //        userId: "John",
-    //        carId: carId,
-    //        fromDate: fromDate,
-    //        toDate: toDate,
-    //        created: "2024-03-31"
-    //    };
-    //    fetch('https://localhost:7045/api/rental/newreservation', {
-    //        method: 'POST',
-    //        headers: {
-    //            'Content-Type': 'application/json',
-    //        },
-    //        body: JSON.stringify(data),
-    //    }).then((response) => {
-    //        if (!response.ok) {
-    //            throw new Error('Reservation unsuccesful.');
-    //        }
-
-    //    }).catch(error => {
-    //        console.log(error);
-    //    });
 
     async function sendReserv() {
 
