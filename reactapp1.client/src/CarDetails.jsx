@@ -10,8 +10,10 @@ function CarDetails() {
     const [rentsList, setRentsList] = useState([]);
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
+    //const [res, setRes] = useState(<div></div>);
     const params = useParams();
     const { carId } = params;
+    const { username } = params;
 
 
     useEffect(() => {
@@ -37,7 +39,7 @@ function CarDetails() {
     }, []);
 
     function printCar() {
-        const currentCar = carsList.find(car => car.id === carId);
+        const currentCar = carsList.find(car => car.id == carId);
 
         return (
             <tr key={currentCar.id}>
@@ -56,8 +58,8 @@ function CarDetails() {
         result = result.concat(rentsList.map(rent => {
             return (
                 <tr key={rent.id}>
-                    <td>{(rent.fromDate).substring(0,10)}</td>
-                    <td>{(rent.toDate).substring(0,10)}</td>
+                    <td>{(rent.fromDate).substring(0, 10)}</td>
+                    <td>{(rent.toDate).substring(0, 10)}</td>
                 </tr>
             );
         }));
@@ -76,39 +78,32 @@ function CarDetails() {
 
     }
 
-    //function makeReserv() {
-    //    const data = {
-    //        userId: "John",
-    //        carId: carId,
-    //        fromDate: fromDate,
-    //        toDate: toDate,
-    //        created: "2024-03-31"
-    //    };
-    //    fetch('https://localhost:7045/api/rental/newreservation', {
-    //        method: 'POST',
-    //        headers: {
-    //            'Content-Type': 'application/json',
-    //        },
-    //        body: JSON.stringify(data),
-    //    }).then((response) => {
-    //        if (!response.ok) {
-    //            throw new Error('Reservation unsuccesful.');
-    //        }
+    async function makeReserv() {
 
-    //    }).catch(error => {
-    //        console.log(error);
-    //    });
-    //}
+        console.log(carId);
+
+        const response = await fetch('https://localhost:7045/api/rental/newreservation?userId=1' + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        const data = await response.json();
+        console.log(data);
+
+        window.location.reload();
+        //if (data) {
+        //    console.log("makeReserve succesful");
+        //} else {
+        //    console.log("makeReserve not succesful");
+        //}
+    }
+
+
 
     async function sendReserv() {
-        console.log(fromDate);
-        console.log(toDate);
 
 
         const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         //console.log(response);
         const data = await response.json();
         if (data) {
+            makeReserv();
             window.alert("Your reservation has been succesful!");
         } else {
             window.alert("Invalid reservation. Please check the dates.");
@@ -117,7 +112,7 @@ function CarDetails() {
     }
 
     async function countPrice() {
-       
+
         const response = await fetch('https://localhost:7045/api/rental/countprice?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         const data = await response.json();
 
@@ -126,12 +121,12 @@ function CarDetails() {
     }
 
     if (loading) {
-        return <div>Loading data...</div>
+        return (<div>Loading data...</div>);
     }
 
     return (
         <div>
-            <NavMenu/>
+            <NavMenu username={username} />
             <div>
                 About this car:
                 <table border="1">
@@ -178,6 +173,7 @@ function CarDetails() {
                 <button onClick={countPrice}>Count price</button>
                 <h3>{price}$</h3>
             </div>
+            {/*{res}*/}
         </div>
     );
 }
