@@ -18,7 +18,7 @@ namespace ReactApp1.Server.Services
 
         public SalesService(ICarService carService, DataContext context) 
         {
-            _carService = carService;
+            _carService = carService;           
             _context = context;
         }
 

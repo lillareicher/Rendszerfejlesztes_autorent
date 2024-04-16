@@ -10,20 +10,22 @@ namespace ReactApp1.Server.Services
         Task<List<Rental>> ListRentals();
         Task<List<Rental>> GetRentals(int carId);
         Task<bool> ValidDate(int carId, string _fromDate, string _toDate);
-        Task<List<Rental>> GetUserRentals(string Username);
+        Task<List<Rental>> GetUserRentals(string userName);
         Task<int> CountPrice(int carId, string _fromDate, string _toDate);
-        Task<bool> NewReservation(int userId, int carId, string _fromDate, string _toDate);
+        Task<bool> NewReservation(string userName, int carId, string _fromDate, string _toDate);
         Task<bool> DeleteReservation(int rentalId);
     }
 
     public class RentalService : IRentalService
     {
         private readonly ICarService _carService;
+        private readonly IAuthService _authService;
         private readonly DataContext _context;
 
-        public RentalService(ICarService carService, DataContext context)
+        public RentalService(ICarService carService, IAuthService authService, DataContext context)
         {
             _carService = carService;
+            _authService = authService;
             _context = context;
         }
 
@@ -44,13 +46,13 @@ namespace ReactApp1.Server.Services
             return rentalsById;
         }
 
-        public async Task<List<Rental>> GetUserRentals(string Username)
+        public async Task<List<Rental>> GetUserRentals(string userName)
         {
             var rentals = await ListRentals();
             List<Rental> rentalsByUserId = new List<Rental>();
             foreach (var rental in rentals)
             {
-                if (rental.User.UserName == Username) { rentalsByUserId.Add(rental); }
+                if (rental.User.UserName == userName) { rentalsByUserId.Add(rental); }
             }
             return rentalsByUserId;
         }
@@ -96,8 +98,9 @@ namespace ReactApp1.Server.Services
             return 0;
         }
 
-        public async Task<bool> NewReservation(int userId, int carId, string _fromDate, string _toDate)
+        public async Task<bool> NewReservation(string userName, int carId, string _fromDate, string _toDate)
         {
+
             Rental rm = new Rental();
 
             DateTime fromDate = DateTime.Parse(_fromDate);
@@ -105,13 +108,13 @@ namespace ReactApp1.Server.Services
             DateTime created = DateTime.UtcNow;
 
             rm.CarId = carId;
-            rm.UserId = userId;
+            rm.UserId = _authService.GetUserId(userName).Result;
             rm.FromDate = fromDate;
             rm.ToDate = toDate;
             rm.Created = created;
 
             var carExists = await _context.Car.FirstOrDefaultAsync(c => c.Id == carId);
-            var idExists = await _context.User.FirstOrDefaultAsync(u => u.Id == userId);
+            var idExists = await _context.User.FirstOrDefaultAsync(u => u.Id == rm.UserId);
 
             if (carExists != null && idExists != null && ValidDate(carId, _fromDate, _toDate).Result)
             {
