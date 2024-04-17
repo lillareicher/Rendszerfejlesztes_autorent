@@ -66,7 +66,7 @@ function User() {
             <br></br>
             <b>Username:</b> {username}
             <br></br>
-            Rents:
+            Rentals:
             <table border="1">
                 <thead>
                     <tr>
