@@ -8,7 +8,6 @@ import CarDetails from './CarDetails';
 import {
     createBrowserRouter,
     RouterProvider,
-    //Route
 } from "react-router-dom";
 import './index.css'
 

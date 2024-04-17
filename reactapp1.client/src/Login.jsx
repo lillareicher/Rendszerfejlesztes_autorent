@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-//import './App.css';
 
 function Login() {
     const [usernameC, setUsername] = useState();
@@ -12,7 +11,7 @@ function Login() {
             password: passwordC
         };
 
-        fetch('https://localhost:7045/api/auth/login', { // külön fájlba kiszervezni const-ként a lekéréseket
+        fetch('https://localhost:7045/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,13 +25,8 @@ function Login() {
                 }
 
                 window.location.href = `/${usernameC}/cars`;
-                //window.location.href = "/cars";
-                //return response.json();
             })
-            //.then((responsedata) => {
-            //    localStorage.setItem('token', responsedata.Token);
-            //    
-            //})
+
             .catch(error => {
                 console.log(error);
             });

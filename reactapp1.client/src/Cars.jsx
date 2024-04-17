@@ -61,36 +61,10 @@ function Cars() {
         console.log(filterCat);
 
 
-        //setLoading(true);
-        //const data = filterCat;
-        //console.log("sendCategory(), data");
-        //console.log(data);
-        //console.log(JSON.stringify(data));
 
         const response = await fetch('https://localhost:7045/api/car/filtercars/' + filterCat);
         const data = await response.json();
         setCarsList(data);
-
-
-        //const response = await fetch('https://localhost:7045/api/car/listcars');
-        //const data = await response.json();
-        //setCarsList(data);
-        //setLoading(false);
-
-        //fetch('https://localhost:7045/api/car/filtercars/' + filterCat ).then((response) => {
-        //    console.log("sendCategory response");
-        //    console.log(response);
-
-        //    const res = await response.json();
-
-        //    console.log("sendCategory res");
-        //    console.log(res);
-
-        //    setCarsList(res);
-        //    setLoading(false);
-        //}).catch(error => {
-        //    console.log(error);
-        //});
     }
 
     function catChange(event) {

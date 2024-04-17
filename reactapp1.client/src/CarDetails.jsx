@@ -1,7 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavMenu from "./NavMenu"
-//import './cardetails.css';
 
 function CarDetails() {
     const [loading, setLoading] = useState(true);
@@ -10,7 +9,6 @@ function CarDetails() {
     const [rentsList, setRentsList] = useState([]);
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
-    //const [res, setRes] = useState(<div></div>);
     const params = useParams();
     const { carId } = params;
     const { username } = params;
@@ -87,11 +85,6 @@ function CarDetails() {
         console.log(data);
 
         window.location.reload();
-        //if (data) {
-        //    console.log("makeReserve succesful");
-        //} else {
-        //    console.log("makeReserve not succesful");
-        //}
     }
 
 
@@ -100,7 +93,6 @@ function CarDetails() {
 
 
         const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
-        //console.log(response);
         const data = await response.json();
         if (data) {
             makeReserv();
@@ -173,7 +165,6 @@ function CarDetails() {
                 <button onClick={countPrice}>Count price</button>
                 <h3>{price}$</h3>
             </div>
-            {/*{res}*/}
         </div>
     );
 }

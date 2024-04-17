@@ -12,17 +12,11 @@ function User() {
 
     async function getUser() {
         const response = await fetch('https://localhost:7045/api/auth/getuser/' + username);
-        //const response = await fetch('https://localhost:7045/api/auth/getuser/' + 1);
         const data = await response.json();
         setUser(data);
 
     }
     async function getUserRents() {
-        //const response = await fetch('https://localhost:7045/api/rental/newreservation?userName=' + username + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
-        //const data = await response.json();
-
-
-        //const response = await fetch('https://localhost:7045/api/rental/getuserrentals/' + user.id);
         const response = await fetch('https://localhost:7045/api/rental/getuserrentals?Username=' + username);
         const data = await response.json();
         setUserRent(data);
@@ -34,7 +28,6 @@ function User() {
     }, [flag]);
 
     function listingRents() {
-        //getUserRents();
         var result = new Array();
 
         result = result.concat(userRent.map(rent => {

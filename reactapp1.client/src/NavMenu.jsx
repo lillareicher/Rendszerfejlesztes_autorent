@@ -1,14 +1,10 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-//import { useParams } from 'react-router-dom';
 import "./NavMenu.css";
 import PropTypes from 'prop-types';
-//import 'bootstrap/dist/css/bootstrap.min.css'
 
 function NavMenu({ username }) {
-    //const params = useParams();
-    //const { userN } = params;
 
     return (
         <>
@@ -41,7 +37,7 @@ function NavMenu({ username }) {
 }
 
 NavMenu.propTypes = {
-    username: PropTypes.string.isRequired, // Validate username prop
+    username: PropTypes.string.isRequired,
 };
 
 export default NavMenu;
