@@ -82,7 +82,7 @@ function CarDetails() {
 
         console.log(carId);
 
-        const response = await fetch('https://localhost:7045/api/rental/newreservation?userId=1' + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        const response = await fetch('https://localhost:7045/api/rental/newreservation?userName=' + username + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         const data = await response.json();
         console.log(data);
 

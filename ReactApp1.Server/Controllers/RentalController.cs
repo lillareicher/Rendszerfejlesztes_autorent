@@ -29,7 +29,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalsByID);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet]
         public async Task<IActionResult> GetUserRentals(string Username)
         {
             var rentalsByUserID = await _rentalService.GetUserRentals(Username);

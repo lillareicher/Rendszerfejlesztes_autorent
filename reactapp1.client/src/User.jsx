@@ -18,8 +18,12 @@ function User() {
 
     }
     async function getUserRents() {
+        //const response = await fetch('https://localhost:7045/api/rental/newreservation?userName=' + username + '&carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
+        //const data = await response.json();
+
+
         //const response = await fetch('https://localhost:7045/api/rental/getuserrentals/' + user.id);
-        const response = await fetch('https://localhost:7045/api/rental/getuserrentals/' + 1);
+        const response = await fetch('https://localhost:7045/api/rental/getuserrentals?Username=' + username);
         const data = await response.json();
         setUserRent(data);
     }
