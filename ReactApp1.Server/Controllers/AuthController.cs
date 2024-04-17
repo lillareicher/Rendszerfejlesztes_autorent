@@ -39,5 +39,12 @@ namespace ReactApp1.Server.Controllers
             int id = await _authService.GetUserId(username);
             return Ok(id);
         }
+
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUsername([FromBody] string username)
+        {
+            int name = await _authService.GetUserId(username);
+            return Ok(name);
+        }
     }
 }

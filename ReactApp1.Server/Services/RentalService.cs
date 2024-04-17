@@ -49,10 +49,20 @@ namespace ReactApp1.Server.Services
         public async Task<List<Rental>> GetUserRentals(string userName)
         {
             var rentals = await ListRentals();
+            var users = await _authService.ListUsers();
             List<Rental> rentalsByUserId = new List<Rental>();
             foreach (var rental in rentals)
             {
-                if (rental.User.UserName == userName) { rentalsByUserId.Add(rental); }
+                foreach (var user in users)
+                {
+                    if (rental.UserId == user.Id)
+                    {
+                        if (user.UserName == userName)
+                        { 
+                            rentalsByUserId.Add(rental);
+                        }
+                    }
+                }
             }
             return rentalsByUserId;
         }

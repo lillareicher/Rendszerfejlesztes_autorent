@@ -11,6 +11,7 @@ namespace ReactApp1.Server.Services
         Task<List<User>> ListUsers();
         Task<User> GetUser(string username);
         Task<int> GetUserId(string username);
+        Task<string> GetUsername(string username);
     }
 
     public class AuthService : IAuthService
@@ -30,7 +31,6 @@ namespace ReactApp1.Server.Services
 
         public async Task<bool> Login(Login model)
         {
-
             Console.WriteLine($"Received username: {model.Username}");
             Console.WriteLine($"Received password: {model.Password}");
             var users = await ListUsers();
@@ -64,6 +64,17 @@ namespace ReactApp1.Server.Services
                     return user.Id;
             }
             return 0;
+        }
+
+        public async Task<string> GetUsername (string username)
+        {
+            var users = await ListUsers();
+            foreach (var user in users)
+            {
+                if (user.UserName == username)
+                    return user.UserName;
+            }
+            return "";
         }
 
     }
