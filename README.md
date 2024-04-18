@@ -5,4 +5,8 @@ Szükséges telepítendő packagek a futtatáshoz:
 -npm install react-bootstrap bootstrap
 -npm install react-router-dom
 
+Minta bejelentkezési adatok: 
+-Felhasz.név: John 
+-Jelszó: 123
 
+Az adatbáziskezelés beépített packagekkel működik, a Microsoft ASP.NET SQL-es bővítményével, ami automatikus migrációkkal tölti fel adatokkal a lokális adatbázist.
