@@ -20,9 +20,11 @@ builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<ISalesService, SalesService>();
-
+builder.Services.AddAuthentication().AddCookie("cookie"); // auth
+builder.Services.AddAuthorization(); // auth
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //?
+
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -63,6 +65,8 @@ app.MapGet("/login", (HttpContext ctx) =>
     ctx.Response.Headers["set-cookie"] = "auth=usr:John";
     return "ok";
 });
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

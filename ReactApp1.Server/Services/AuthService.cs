@@ -26,16 +26,17 @@ namespace ReactApp1.Server.Services
         Task<User> GetUser(string username);
         Task<int> GetUserId(string username);
         Task<string> GetUsername(string username);
-        Task<JwtPacket> CreateJwtPacket(User user);
     }
 
     public class AuthService : IAuthService
     {
         private readonly DataContext _context;
+        private readonly TokenService _tokenService;
 
-        public AuthService(DataContext context)
+        public AuthService(DataContext context, TokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         public async Task<List<User>> ListUsers()
@@ -48,7 +49,7 @@ namespace ReactApp1.Server.Services
         {
             var Hasher = new PasswordHasher<User>();
             var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
-            return CreateJwtPacket(user).Result;
+            return _tokenService.CreateJwtPacket(user).Result;
 
             //Console.WriteLine($"Received username: {model.Username}");
             //Console.WriteLine($"Received password: {model.Password}");
@@ -95,22 +96,7 @@ namespace ReactApp1.Server.Services
             return "";
         }
 
-        public async Task <JwtPacket> CreateJwtPacket(User user)
-        {
-            
-            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MY_KEY_THAT_IS_SECRET"));
-            var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, Convert.ToString(user.Id))
-            };
-
-            var jwt = new JwtSecurityToken(claims: claims, signingCredentials: signinCredentials);
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return new JwtPacket { Token = encodedJwt, Name = user.UserName };
-        }
+       
     }
 
 
