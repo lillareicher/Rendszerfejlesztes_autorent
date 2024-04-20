@@ -19,12 +19,19 @@ function Login() {
             body: JSON.stringify(data),
         })
             .then((response) => {
+                console.log(response);
                 if (!response.ok) {
                     window.alert("Invalid login information.");
                     throw new Error('Invalid username or password in frontend');
                 }
 
-                window.location.href = `/${usernameC}/cars`;
+                const responseData = response.json();
+                const token = responseData.token;
+                console.log(token);
+
+                localStorage.setItem('token', token); // token elmentese localStorage-be
+
+                //window.location.href = `/${usernameC}/cars`;
             })
 
             .catch(error => {

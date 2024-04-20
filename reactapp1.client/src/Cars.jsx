@@ -17,6 +17,12 @@ function Cars() {
 
     useEffect(() => {
 
+        //const token = localStorage.getItem('token');
+        //if (!token) {
+        //    history.push("");
+        //    return;
+        //}
+
         async function getCarsList() {
 
             const response = await fetch('https://localhost:7045/api/car/listcars');
