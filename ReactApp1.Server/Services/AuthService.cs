@@ -13,17 +13,20 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using AltinnCore.Authentication.JwtCookie;
 
 
 namespace ReactApp1.Server.Services
 {
     public interface IAuthService // interface authentication service
     {
-        Task<bool> Login(Login model);
+        Task<JwtPacket> Login(Login model);
         Task<List<User>> ListUsers();
         Task<User> GetUser(string username);
         Task<int> GetUserId(string username);
         Task<string> GetUsername(string username);
+        Task<JwtPacket> CreateJwtPacket(User user);
     }
 
     public class AuthService : IAuthService
@@ -41,20 +44,12 @@ namespace ReactApp1.Server.Services
             return users;
         }             
 
-        public async Task<bool> Login(Login model)
+        public async Task<JwtPacket> Login(Login model)
         {
             var Hasher = new PasswordHasher<User>();
             var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
-            if (user != null)
-            {
-                if (0 != Hasher.VerifyHashedPassword(user, user.Password, model.Password))
-                {
-                    return true;
-                }
-                return false;
-            }
+            return CreateJwtPacket(user).Result;
 
-            return false;
             //Console.WriteLine($"Received username: {model.Username}");
             //Console.WriteLine($"Received password: {model.Password}");
             //var users = await ListUsers();
@@ -100,6 +95,22 @@ namespace ReactApp1.Server.Services
             return "";
         }
 
+        public async Task <JwtPacket> CreateJwtPacket(User user)
+        {
+            
+            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MY_KEY_THAT_IS_SECRET"));
+            var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, Convert.ToString(user.Id))
+            };
+
+            var jwt = new JwtSecurityToken(claims: claims, signingCredentials: signinCredentials);
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return new JwtPacket { Token = encodedJwt, Name = user.UserName };
+        }
     }
 
 

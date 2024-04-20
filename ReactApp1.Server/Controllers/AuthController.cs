@@ -20,6 +20,7 @@ namespace ReactApp1.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")] //A [controller] kiveszi a class nevébõl a "controller"-t, az [action] helyére pedig az adott függvény fog bekerülni
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -35,13 +36,11 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> Login(Login model)
         {
             var succeeded = await _authService.Login(model);
-            var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
-            if (succeeded && user != null)
+            if(succeeded != null)
             {
-                return Ok(CreateJwtPacket(user));
+                return Ok();
             }
-
-            return NotFound("Email and/or Password are incorrect");
+            return Unauthorized();
         }
 
         [HttpGet("{username}")]
@@ -65,20 +64,6 @@ namespace ReactApp1.Server.Controllers
             return Ok(name);
         }
 
-        JwtPacket CreateJwtPacket(User user)
-        {
-            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MY_KEY_THAT_IS_SECRET"));
-            var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, Convert.ToString(user.Id))
-            };
-
-            var jwt = new JwtSecurityToken(claims: claims, signingCredentials: signinCredentials);
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return new JwtPacket { Token = encodedJwt, Name = user.UserName };
-        }
+        
     }
 }
