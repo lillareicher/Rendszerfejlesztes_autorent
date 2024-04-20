@@ -21,7 +21,7 @@ namespace ReactApp1.Server.Services
 {
     public interface IAuthService // interface authentication service
     {
-        Task<JwtPacket> Login(Login model);
+        Task<bool> Login(Login model);
         Task<List<User>> ListUsers();
         Task<User> GetUser(string username);
         Task<int> GetUserId(string username);
@@ -44,21 +44,17 @@ namespace ReactApp1.Server.Services
             return users;
         }             
 
-        public async Task<JwtPacket> Login(Login model)
+        public async Task<bool> Login(Login model)
         {
-            var Hasher = new PasswordHasher<User>();
-            var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
-            return CreateJwtPacket(user).Result;
-
-            //Console.WriteLine($"Received username: {model.Username}");
-            //Console.WriteLine($"Received password: {model.Password}");
-            //var users = await ListUsers();
-            //foreach (var user in users)
-            //{
-            //    if (user.UserName == model.Username && user.Password == model.Password)
-            //        return true;
-            //}
-            //return false;
+            Console.WriteLine($"Received username: {model.Username}");
+            Console.WriteLine($"Received password: {model.Password}");
+            var users = await ListUsers();
+            foreach (var user in users)
+            {
+                if (user.UserName == model.Username && user.Password == model.Password)
+                    return true;
+            }
+            return false;
         }
 
         public async Task<User> GetUser(string username)

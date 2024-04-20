@@ -32,15 +32,20 @@ namespace ReactApp1.Server.Controllers
             _context = context;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
-            var succeeded = await _authService.Login(model);
-            if(succeeded != null)
+            var Hasher = new PasswordHasher<User>();
+            var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
+            if (user != null)
             {
-                return Ok();
+                if (0 != Hasher.VerifyHashedPassword(user, user.Password, model.Password))
+                {
+                    return Ok(_authService.CreateJwtPacket(user));
+                }
+                return NotFound("Email and/or Password are incorrect");
             }
-            return Unauthorized();
+            return NotFound("Email and/or Password are incorrect");
         }
 
         [HttpGet("{username}")]
