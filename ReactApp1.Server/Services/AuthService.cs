@@ -1,7 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Models.Model;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace ReactApp1.Server.Services
 {
@@ -27,20 +39,31 @@ namespace ReactApp1.Server.Services
         {
             var users = await _context.User.ToListAsync();
             return users;
-        }
+        }             
 
         public async Task<bool> Login(Login model)
         {
-            Console.WriteLine($"Received username: {model.Username}");
-            Console.WriteLine($"Received password: {model.Password}");
-            var users = await ListUsers();
-            foreach (var user in users)
+            var Hasher = new PasswordHasher<User>();
+            var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
+            if (user != null)
             {
-                if (user.UserName == model.Username && user.Password == model.Password)
+                if (0 != Hasher.VerifyHashedPassword(user, user.Password, model.Password))
+                {
                     return true;
+                }
+                return false;
             }
 
             return false;
+            //Console.WriteLine($"Received username: {model.Username}");
+            //Console.WriteLine($"Received password: {model.Password}");
+            //var users = await ListUsers();
+            //foreach (var user in users)
+            //{
+            //    if (user.UserName == model.Username && user.Password == model.Password)
+            //        return true;
+            //}
+            //return false;
         }
 
         public async Task<User> GetUser(string username)

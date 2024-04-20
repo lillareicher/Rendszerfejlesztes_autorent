@@ -21,10 +21,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<ISalesService, SalesService>();
 
-//builder.Services.AddDbContext<DataContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //?
-
-
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //?
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -32,7 +30,6 @@ using (var scope = app.Services.CreateScope())
     var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
     ctx.Database.Migrate();
 }
-
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -50,6 +47,22 @@ app.UseCors(builder =>
 });
 
 app.UseHttpsRedirection();
+
+app.MapGet("/username", (HttpContext ctx) =>
+{
+    var authCookie = ctx.Request.Headers.Cookie.FirstOrDefault(x => x.StartsWith("auth="));
+    var payload = authCookie.Split("=").Last();
+    var parts = payload.Split(":");
+    var key = parts[0];
+    var value = parts[1];
+    return value;
+});
+
+app.MapGet("/login", (HttpContext ctx) =>
+{
+    ctx.Response.Headers["set-cookie"] = "auth=usr:John";
+    return "ok";
+});
 
 app.UseAuthorization();
 
