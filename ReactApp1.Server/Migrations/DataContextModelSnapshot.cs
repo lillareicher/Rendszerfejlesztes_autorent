@@ -100,6 +100,23 @@ namespace ReactApp1.Server.Migrations
                     b.ToTable("Rental");
                 });
 
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("ReactApp1.Server.Models.Entities.Sales", b =>
                 {
                     b.Property<int>("Id")
@@ -114,7 +131,7 @@ namespace ReactApp1.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Percent")
+                    b.Property<int>("Percentage")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -140,11 +157,16 @@ namespace ReactApp1.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
                 });
@@ -188,6 +210,17 @@ namespace ReactApp1.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("ReactApp1.Server.Models.Entities.User", b =>
+                {
+                    b.HasOne("ReactApp1.Server.Models.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

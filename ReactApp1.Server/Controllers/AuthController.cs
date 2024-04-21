@@ -20,7 +20,6 @@ namespace ReactApp1.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")] //A [controller] kiveszi a class nevébõl a "controller"-t, az [action] helyére pedig az adott függvény fog bekerülni
-    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -33,37 +32,30 @@ namespace ReactApp1.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(Login model)
+        public async Task<IActionResult> Login([FromBody]Login model)
         {
-            var Hasher = new PasswordHasher<User>();
-            var user = _context.User.SingleOrDefault(u => u.UserName == model.Username);
-            if (user != null)
-            {
-                if (0 != Hasher.VerifyHashedPassword(user, user.Password, model.Password))
-                {
-                    return Ok(_authService.CreateJwtPacket(user));
-                }
-                return NotFound("Email and/or Password are incorrect");
-            }
-            return NotFound("Email and/or Password are incorrect");
+            var login = await _authService.Login(model);
+            return Ok(login);      
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUser([FromBody] string username)
+        public async Task<IActionResult> GetUser([FromBody]string username)
         {
             var user = await _authService.GetUser(username);
             return Ok(user);
         }
 
+        //[Authorize(Roles = "User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserId([FromBody] string username)
+        public async Task<IActionResult> GetUserId([FromBody]string username)
         {
             int id = await _authService.GetUserId(username);
             return Ok(id);
         }
 
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUsername([FromBody] string username)
+        public async Task<IActionResult> GetUsername([FromBody]string username)
         {
             int name = await _authService.GetUserId(username);
             return Ok(name);

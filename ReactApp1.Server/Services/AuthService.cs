@@ -15,18 +15,19 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using AltinnCore.Authentication.JwtCookie;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Authentication;
 
 
 namespace ReactApp1.Server.Services
 {
     public interface IAuthService // interface authentication service
     {
-        Task<bool> Login(Login model);
+        Task<string> Login(Login model);
         Task<List<User>> ListUsers();
         Task<User> GetUser(string username);
         Task<int> GetUserId(string username);
         Task<string> GetUsername(string username);
-        Task<JwtPacket> CreateJwtPacket(User user);
     }
 
     public class AuthService : IAuthService
@@ -44,17 +45,32 @@ namespace ReactApp1.Server.Services
             return users;
         }             
 
-        public async Task<bool> Login(Login model)
+        public async Task<string> Login(Login model)
         {
             Console.WriteLine($"Received username: {model.Username}");
             Console.WriteLine($"Received password: {model.Password}");
-            var users = await ListUsers();
-            foreach (var user in users)
+            var Hasher = new PasswordHasher<User>();
+            var user = await _context.User.AsQueryable().Include(u => u.Role).FirstOrDefaultAsync(u => u.UserName == model.Username && u.Password == model.Password);
+            if(user == null) 
             {
-                if (user.UserName == model.Username && user.Password == model.Password)
-                    return true;
+                throw new AuthenticationException("Unauthorized access");
             }
-            return false;
+            List<Claim> claims = new List<Claim>()
+            {
+                new(ClaimTypes.Role, user.Role.Name)
+            };
+
+            var token = GenerateJwtToken(claims);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private JwtSecurityToken GenerateJwtToken(List<Claim> claims)
+        {
+            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Jsdgfksdo345634lesdfgdf5jkdgfljkdgfk756lksdf")); // frontend: authorization header -> Bearer token
+            var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddHours(1);
+            var token = new JwtSecurityToken("https://localhost:7045/", "https://localhost:5173/", claims, expires: expires, signingCredentials: signinCredentials);
+            return token; 
         }
 
         public async Task<User> GetUser(string username)
@@ -90,25 +106,6 @@ namespace ReactApp1.Server.Services
             }
             return "";
         }
-
-        public async Task<JwtPacket> CreateJwtPacket(User user)
-        {
-
-            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MY_KEY_THAT_IS_SECRET"));
-            var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, Convert.ToString(user.Id))
-            };
-
-            var jwt = new JwtSecurityToken(claims: claims, signingCredentials: signinCredentials);
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return new JwtPacket { Token = encodedJwt, Name = user.UserName };
-        }
-
-
     }
 
 
