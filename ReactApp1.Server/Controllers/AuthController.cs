@@ -38,24 +38,25 @@ namespace ReactApp1.Server.Controllers
             return Ok(login);      
         }
 
-        //[Authorize(Roles = $"Admin, User")]
+        [Authorize(Roles = $"Admin, User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUser([FromBody]string username)
+        public async Task<IActionResult> GetUser(/*[FromBody]*/string username)
         {
             var user = await _authService.GetUser(username);
             return Ok(user);
         }
 
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserId([FromBody]string username)
+        public async Task<IActionResult> GetUserId(/*[FromBody]*/string username)
         {
             int id = await _authService.GetUserId(username);
             return Ok(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUsername([FromBody]string username)
+        public async Task<IActionResult> GetUsername(/*[FromBody]*/string username)
         {
             int name = await _authService.GetUserId(username);
             return Ok(name);

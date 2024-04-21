@@ -31,7 +31,7 @@ function Login() {
 
                 localStorage.setItem('token', token); // token elmentese localStorage-be
 
-                //window.location.href = `/${usernameC}/cars`;
+                window.location.href = `/${usernameC}/cars`;
             })
 
             .catch(error => {
