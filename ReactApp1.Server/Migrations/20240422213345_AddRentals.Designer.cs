@@ -12,8 +12,8 @@ using ReactApp1.Server.Data;
 namespace ReactApp1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240421175023_AddRoles")]
-    partial class AddRoles
+    [Migration("20240422213345_AddRentals")]
+    partial class AddRentals
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
