@@ -32,7 +32,7 @@ namespace ReactApp1.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]Login model)
+        public async Task<IActionResult> Login([FromBody] Login model)
         {
             var login = await _authService.Login(model);
             return Ok(login);      
@@ -40,7 +40,7 @@ namespace ReactApp1.Server.Controllers
 
         [Authorize(Roles = $"Admin, User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUser(/*[FromBody]*/string username)
+        public async Task<IActionResult> GetUser(/*[FromBody]*/ string username)
         {
             var user = await _authService.GetUser(username);
             return Ok(user);
@@ -48,7 +48,7 @@ namespace ReactApp1.Server.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserId(/*[FromBody]*/string username)
+        public async Task<IActionResult> GetUserId(/*[FromBody]*/ string username)
         {
             int id = await _authService.GetUserId(username);
             return Ok(id);
@@ -56,7 +56,7 @@ namespace ReactApp1.Server.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetUsername(/*[FromBody]*/string username)
+        public async Task<IActionResult> GetUsername(/*[FromBody]*/ string username)
         {
             int name = await _authService.GetUserId(username);
             return Ok(name);
