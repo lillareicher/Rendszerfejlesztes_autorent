@@ -15,7 +15,7 @@ function NavMenu({ username }) {
                         <ul>
                             <li>
                                 <a>
-                                    <Nav.Link href="/">Login</Nav.Link>
+                                    <Nav.Link href="/">Logout</Nav.Link>
                                 </a>
                             </li>
                             <li>
