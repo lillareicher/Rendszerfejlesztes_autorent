@@ -44,6 +44,8 @@ function Login() {
         setPassword(event.target.value);
     }
 
+    localStorage.clear();
+
     return (
         <div>
             <h1 id="tabelLabel">Login</h1>
