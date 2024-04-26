@@ -9,6 +9,7 @@ function CarDetails() {
     const [rentsList, setRentsList] = useState([]);
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
+    const [isAuth, setIsAuth] = useState(false);
     const params = useParams();
     const { carId } = params;
     const { username } = params;
@@ -16,11 +17,14 @@ function CarDetails() {
 
     useEffect(() => {
 
-        //const token = localStorage.getItem('token');
-        //if (!token) {
-        //    history.push("");
-        //    return;
-        //}
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setIsAuth(false);
+            setLoading(false);
+            return;
+        }
+
+        setIsAuth(true);
 
         async function getCarsList() {
 
@@ -122,57 +126,67 @@ function CarDetails() {
         return (<div>Loading data...</div>);
     }
 
-    return (
-        <div>
-            <NavMenu username={username} />
+    if (isAuth) {
+        return (
             <div>
-                About this car:
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <td >Car Id</td>
-                            <td >Brand</td>
-                            <td >Model</td>
-                            <td >Category Id</td>
-                            <td >Daily Price</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {printCar()}
-                    </tbody>
-                </table>
-            </div>
+                <NavMenu username={username} />
+                <div>
+                    About this car:
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <td >Car Id</td>
+                                <td >Brand</td>
+                                <td >Model</td>
+                                <td >Category Id</td>
+                                <td >Daily Price</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {printCar()}
+                        </tbody>
+                    </table>
+                </div>
 
-            <br></br>
+                <br></br>
+                <div>
+                    Reserved on these dates:
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <td >From</td>
+                                <td >To</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listRents()}
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div>
+                    Make a reservation here:
+                    <br></br>
+                    <label>Start date:</label> <input name="startDate" type="date" onChange={fromChange}></input>
+                    <br></br>
+                    <label>End date:</label> <input name="endDate" type="date" onChange={toChange}></input>
+                    <br></br>
+                    <button onClick={sendReserv}>Reserve</button>
+                    <button onClick={countPrice}>Count price</button>
+                    <h3>{price}$</h3>
+                </div>
+            </div>
+        );
+    } else {
+        return (
             <div>
-                Reserved on these dates:
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <td >From</td>
-                            <td >To</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {listRents()}
-                    </tbody>
-                </table>
-
+                <h1>Access Denied</h1>
+                You do not have access to this page.
             </div>
+        );
+    }
 
-            <div>
-                Make a reservation here:
-                <br></br>
-                <label>Start date:</label> <input name="startDate" type="date" onChange={fromChange}></input>
-                <br></br>
-                <label>End date:</label> <input name="endDate" type="date" onChange={toChange}></input>
-                <br></br>
-                <button onClick={sendReserv}>Reserve</button>
-                <button onClick={countPrice}>Count price</button>
-                <h3>{price}$</h3>
-            </div>
-        </div>
-    );
 }
 
 export default CarDetails;

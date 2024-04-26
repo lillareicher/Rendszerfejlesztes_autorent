@@ -12,16 +12,20 @@ function Cars() {
     const [carsList, setCarsList] = useState([]);
     const [categoryList, setCatList] = useState([]);
     const [filterCat, setFilterCat] = useState("Race");
+    const [isAuth, setIsAuth] = useState(false);
 
     const flag = null;
 
     useEffect(() => {
 
-        //const token = localStorage.getItem('token');
-        //if (!token) {
-        //    history.push("");
-        //    return;
-        //}
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setIsAuth(false);
+            setLoading(false);
+            return;
+        }
+
+        setIsAuth(true);
 
         async function getCarsList() {
 
@@ -43,6 +47,9 @@ function Cars() {
         getCatList();
     }, [flag]);
 
+    //function accessDeniedMsg() {
+        
+    //}
 
     function listing() {
         var result = new Array();
@@ -98,37 +105,47 @@ function Cars() {
         return <div>Loading data...</div>
     }
 
-    return (
-        <div>
-            <NavMenu username={username} />
+    if (isAuth) {
+        return (
             <div>
+                <NavMenu username={username} />
+                <div>
+
+                </div>
+                <div>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th>Daily Price</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listing()}
+                        </tbody>
+                    </table>
+                    <select onChange={catChange}>
+                        {selecting()}
+                        <option value="none" >None</option>
+                    </select>
+                    <br></br>
+                    <button onClick={sendCategory} >Filter</button>
+                </div>
 
             </div>
+        );
+    } else {
+        return (
             <div>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Daily Price</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {listing()}
-                    </tbody>
-                </table>
-                <select onChange={catChange}>
-                    {selecting()}
-                    <option value="none" >None</option>
-                </select>
-                <br></br>
-                <button onClick={sendCategory} >Filter</button>
+                <h1>Access Denied</h1>
+                You do not have access to this page.
             </div>
+        );
+    }
 
-        </div>
-    );
 
 }
 

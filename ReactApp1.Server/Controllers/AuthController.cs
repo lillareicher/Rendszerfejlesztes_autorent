@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using ReactApp1.Server.Services;
+using Newtonsoft.Json;
 
 namespace ReactApp1.Server.Controllers
 {
@@ -35,7 +36,8 @@ namespace ReactApp1.Server.Controllers
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             var login = await _authService.Login(model);
-            return Ok(login);      
+            var json = JsonConvert.SerializeObject(login);
+            return Ok(json);
         }
 
         [Authorize(Roles = $"Admin, User")]

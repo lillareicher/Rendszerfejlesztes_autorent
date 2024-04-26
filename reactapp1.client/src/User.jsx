@@ -7,6 +7,7 @@ function User() {
     const { username } = params;
     const [user, setUser] = useState({ id: "", uerName: "", name: "", password: "" });
     const [userRent, setUserRent] = useState([]);
+    const [isAuth, setIsAuth] = useState(false);
     const flag = null;
 
 
@@ -23,6 +24,13 @@ function User() {
     }
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setIsAuth(false);
+            return;
+        }
+
+        setIsAuth(true);
         getUser();
         getUserRents();
     }, [flag]);
@@ -47,38 +55,44 @@ function User() {
         return result;
     }
 
+    if (isAuth) {
+        return (
+            <div>
+                <NavMenu username={username} />
 
+                <h2>Hello, {username}!</h2>
+                <u>Account information:</u>
+                <br></br>
+                <b>Username:</b> {username}
+                <br></br>
+                Rentals:
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>Rental Id</td>
+                            <td></td>
+                            <td>From</td>
+                            <td>To</td>
+                            <td>Created</td>
+                            <td></td>
+                            <td>CarId</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listingRents()}
+                    </tbody>
+                </table>
+            </div>
 
-
-    return (
-        <div>
-            <NavMenu username={username} />
-
-            <h2>Hello, {username}!</h2>
-            <u>Account information:</u>
-            <br></br>
-            <b>Username:</b> {username}
-            <br></br>
-            Rentals:
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td>Rental Id</td>
-                        <td></td>
-                        <td>From</td>
-                        <td>To</td>
-                        <td>Created</td>
-                        <td></td>
-                        <td>CarId</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listingRents()}
-                </tbody>
-            </table>
-        </div>
-
-    );
+        );
+    } else {
+        return (
+            <div>
+                <h1>Access Denied</h1>
+                You do not have access to this page.
+            </div>
+        );
+    }
 }
 
 export default User; 

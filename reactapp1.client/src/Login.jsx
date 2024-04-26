@@ -1,9 +1,12 @@
 
 import { useEffect, useState } from 'react';
+//import Cookies from "universal-cookie";
+//import jwt from "jwt-decode";
 
 function Login() {
     const [usernameC, setUsername] = useState();
     const [passwordC, setPassword] = useState();
+    //const cookies = new Cookies();
 
     async function sendLoginInfo() {
         const data = {
@@ -17,26 +20,21 @@ function Login() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        })
-            .then((response) => {
-                console.log(response);
-                if (!response.ok) {
-                    window.alert("Invalid login information.");
-                    throw new Error('Invalid username or password in frontend');
-                }
+        }).then((response) => {
+            if (!response.ok) {
+                window.alert("Invalid login information.");
+                throw new Error('Invalid username or password in frontend');
+            }
+            //console.log(response);
 
-                const responseData = response.json();
-                const token = responseData.token;
-                console.log(token);
-
-                localStorage.setItem('token', token); // token elmentese localStorage-be
-
-                window.location.href = `/${usernameC}/cars`;
-            })
-
-            .catch(error => {
+            return response.json();
+        }).then((responseData) => {
+            //console.log(responseData);
+            localStorage.setItem('token', responseData);
+            window.location.href = `/${usernameC}/cars`;
+        }).catch(error => {
                 console.log(error);
-            });
+        });
     }
 
     function userChange(event) {
