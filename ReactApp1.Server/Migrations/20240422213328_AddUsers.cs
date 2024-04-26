@@ -10,9 +10,9 @@ namespace ReactApp1.Server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql($"INSERT INTO [User](UserName, Name, Password) VALUES " +
-                $"('John','John Andrews','123')," +
-                $"('Jane','Jane Anderson','456')");
+            migrationBuilder.Sql($"INSERT INTO [User](RoleId, UserName, Name, Password) VALUES " +
+                $"(1, 'John','John Andrews','123')," +
+                $"(2, 'Jane','Jane Anderson','456')");
         }
 
         /// <inheritdoc />

@@ -12,7 +12,7 @@ using ReactApp1.Server.Data;
 namespace ReactApp1.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240421175016_AddSales")]
+    [Migration("20240422213350_AddSales")]
     partial class AddSales
     {
         /// <inheritdoc />
