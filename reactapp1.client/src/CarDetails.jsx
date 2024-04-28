@@ -7,6 +7,7 @@ function CarDetails() {
     const [carsList, setCarsList] = useState([]);
     const [price, setPrice] = useState(0);
     const [rentsList, setRentsList] = useState([]);
+    const [salesList, setSalesList] = useState([]);
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
     const [isAuth, setIsAuth] = useState(false);
@@ -26,25 +27,25 @@ function CarDetails() {
 
         setIsAuth(true);
 
-        async function getCarsList() {
+        async function fetchData() {
+            try {
+                const [carsResponse, rentsResponse, salesResponse] = await Promise.all([
+                    fetch('https://localhost:7045/api/car/listcars').then(response => response.json()),
+                    fetch('https://localhost:7045/api/rental/getrentals/' + carId).then(response => response.json()),
+                    fetch('https://localhost:7045/api/sales/listsales').then(response => response.json())
+                ]);
 
-            const response = await fetch('https://localhost:7045/api/car/listcars');
-            const data = await response.json();
-            setCarsList(data);
-            setLoading(false);
+                setCarsList(carsResponse);
+                setRentsList(rentsResponse);
+                setSalesList(salesResponse);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
         }
-
-        async function getRents() {
-
-            const response = await fetch('https://localhost:7045/api/rental/getrentals/' + carId);
-            const data = await response.json();
-            setRentsList(data);
-
-        }
-
-        getCarsList();
-        getRents();
-    }, []);
+        fetchData();
+    }, [carId]);
 
     function printCar() {
         const currentCar = carsList.find(car => car.id == carId);
@@ -57,6 +58,32 @@ function CarDetails() {
                 <td>{currentCar.categoryId}</td>
                 <td>{currentCar.dailyPrice + "$"}</td>
             </tr>
+        );
+    }
+
+    function listSales() {
+        const currentSale = salesList.find(sale => sale.carId == carId);
+        if (currentSale == null) {
+            return (
+                <div></div>
+            );
+        }
+        return (
+            <div>
+                Current discounts:
+                <table>
+                    <thead>
+                        <td>Description</td>
+                        <td>Percentage</td>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{currentSale.description}</td>
+                            <td>{currentSale.percentage}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
         );
     }
 
@@ -164,6 +191,8 @@ function CarDetails() {
                     </table>
 
                 </div>
+
+                {listSales()}
 
                 <div>
                     Make a reservation here:
