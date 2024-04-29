@@ -51,11 +51,11 @@ function Login() {
             <h1 id="tabelLabel">Login</h1>
             <div>
                 <div>
-                    <label>Username:</label>
+                    <label>Username: </label>
                     <input type="text" name="username" onChange={userChange} />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Password: </label>
                     <input type="password" name="password" onChange={passChange} />
                 </div>
                 <button onClick={sendLoginInfo}>Login</button>

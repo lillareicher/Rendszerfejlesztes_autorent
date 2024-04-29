@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavMenu from "./NavMenu"
 import { useParams } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 
 
@@ -13,18 +14,29 @@ function Cars() {
     const [categoryList, setCatList] = useState([]);
     const [filterCat, setFilterCat] = useState("Race");
     const [isAuth, setIsAuth] = useState(false);
+    const [decToken, setDecToken] = useState(null);
+    const [brand, setBrand] = useState("");
+    const [model, setModel] = useState("");
+    const [dailyP, setDailyP] = useState("");
 
     const flag = null;
 
     useEffect(() => {
 
         const token = localStorage.getItem('token');
-        if (!token) {
+
+        const decoded = jwtDecode(token);
+        decoded.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        decoded.username = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        delete decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        delete decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        setDecToken(decoded);
+
+        if (!token || decoded.username != username) {
             setIsAuth(false);
             setLoading(false);
             return;
         }
-
         setIsAuth(true);
 
         async function getCarsList() {
@@ -48,8 +60,49 @@ function Cars() {
     }, [flag]);
 
     //function accessDeniedMsg() {
-        
+
     //}
+
+    function brandChange(event) {
+        setBrand(event.target.value);
+    }
+    function modelChange(event) {
+        setModel(event.target.value);
+    }
+    function dailyPChange(event) {
+        setDailyP(event.target.value);
+    }
+
+    async function sendNewCar() {
+        const data = {
+            
+        };
+    }
+
+
+    function printAddNewCar() {
+        if (decToken.role == "Admin") {
+            return (
+                <fieldset>
+                    Add a new car:<br></br>
+                    Brand:<br></br>
+                    <input name="carBrand" onChange={brandChange}></input><br></br>
+                    Model:<br></br>
+                    <input name="carModel" onChange={modelChange}></input><br></br>
+                    Daily Price:<br></br>
+                    <input name="dailyPrice" onChange={dailyPChange}></input><br></br>
+                    Category:<br></br>
+                    <select name="categoryList" onChange={catChange}>
+                        {selecting()}
+                    </select><br></br>
+                    <button>Add</button>
+
+                </fieldset>
+            );
+        }
+        return (<div></div>);
+    }
+
 
     function listing() {
         var result = new Array();
@@ -134,6 +187,10 @@ function Cars() {
                     <br></br>
                     <button onClick={sendCategory} >Filter</button>
                 </div>
+
+                {printAddNewCar()}
+
+
 
             </div>
         );

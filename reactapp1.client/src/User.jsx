@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavMenu from "./NavMenu"
+import { jwtDecode } from "jwt-decode";
 
 function User() {
     const params = useParams();
@@ -8,8 +9,8 @@ function User() {
     const [user, setUser] = useState({ id: "", uerName: "", name: "", password: "" });
     const [userRent, setUserRent] = useState([]);
     const [isAuth, setIsAuth] = useState(false);
+    const [decToken, setDecToken] = useState(null);
     const flag = null;
-
 
     async function getUser() {
         const response = await fetch('https://localhost:7045/api/auth/getuser/' + username);
@@ -25,7 +26,15 @@ function User() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (!token) {
+
+        const decoded = jwtDecode(token);
+        decoded.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        decoded.username = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        delete decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        delete decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        setDecToken(decoded);
+
+        if (!token || decoded.username != username) {
             setIsAuth(false);
             return;
         }
