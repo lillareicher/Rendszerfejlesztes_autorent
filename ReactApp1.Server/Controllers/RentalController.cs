@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -14,6 +15,7 @@ namespace ReactApp1.Server.Controllers
             _rentalService = rentalService;
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> ListRentals()
         {
@@ -22,6 +24,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalModels);
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet("{carId}")]  //api/rental/GetRentals/"id"
         public async Task<IActionResult> GetRentals(int carId)
         {
@@ -29,6 +32,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalsByID);
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> GetUserRentals(string Username)
         {
@@ -36,6 +40,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(rentalsByUserID);
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> ValidDate(int carId, string _fromDate, string _toDate)
         {
@@ -44,6 +49,7 @@ namespace ReactApp1.Server.Controllers
             //return Unauthorized();
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> CountPrice(int carId, string _fromDate, string _toDate)
         {
@@ -51,6 +57,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(price);
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> NewReservation(string userName, int carId, string _fromDate, string _toDate)
         {
@@ -59,6 +66,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(succeded);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> DeleteReservation(int rentalId)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Models.Entities;
 using ReactApp1.Server.Services;
 
@@ -16,6 +17,7 @@ namespace ReactApp1.Server.Controllers
             _categoryService = categoryService;
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> ListCategories()
         {
@@ -24,6 +26,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(categories);
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet("{categoryName}")]
         public async Task<IActionResult> FilterCategories(string categoryName)
         {

@@ -40,7 +40,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(json);
         }
 
-        [Authorize(Roles = $"Admin, User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUser(/*[FromBody]*/ string username)
         {
@@ -48,7 +48,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUserId(/*[FromBody]*/ string username)
         {

@@ -51,13 +51,16 @@ namespace ReactApp1.Server.Services
             Console.WriteLine($"Received password: {model.Password}");
             var Hasher = new PasswordHasher<User>();
             var user = await _context.User.AsQueryable().Include(u => u.Role).FirstOrDefaultAsync(u => u.UserName == model.Username && u.Password == model.Password);
+
             if(user == null) 
             {
                 throw new AuthenticationException("Unauthorized access");
             }
+
             List<Claim> claims = new List<Claim>()
             {
-                new(ClaimTypes.Role, user.Role.Name)
+                new(ClaimTypes.Role, user.Role.Name),
+                new(ClaimTypes.Name, user.UserName)
             };
 
             var token = GenerateJwtToken(claims);
