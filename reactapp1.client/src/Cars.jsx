@@ -12,7 +12,7 @@ function Cars() {
     const [carsList, setCarsList] = useState([]);
     const [categoryList, setCatList] = useState([]);
     const [filterCat, setFilterCat] = useState("Race");
-    const [filterCat2, setFilterCat2] = useState(-1);
+    const [filterCat2, setFilterCat2] = useState(1);
     const [isAuth, setIsAuth] = useState(false);
     const [decToken, setDecToken] = useState(null);
     const [brand, setBrand] = useState(" ");
