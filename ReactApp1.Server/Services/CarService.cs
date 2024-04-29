@@ -8,6 +8,7 @@ namespace ReactApp1.Server.Services
     {
         Task<List<Car>> ListCars();
         Task<List<Car>> FilterCars(string categoryName);
+        Task<bool> AddCars(int categoryId, string brand, string model, int dailyPrice);
     }
 
     public class CarService : ICarService
@@ -46,8 +47,33 @@ namespace ReactApp1.Server.Services
 
             return filteredCars;
         }
+
+        public async Task<bool> AddCars(int categoryId, string brand, string model, int dailyPrice)
+        {
+            var cars = await ListCars();
+            Car car = new Car();
+            car.Id = cars.Count() + 1;
+
+            car.CategoryId = categoryId;
+            car.Brand = brand;
+            car.Model = model;
+            car.DailyPrice = dailyPrice;
+
+            var categoryIdExists = await _context.Car.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+
+            if(categoryIdExists == null)
+            {
+                return false;
+            }
+
+            await _context.AddAsync(car);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        }
     }
 
 
-}
+
 

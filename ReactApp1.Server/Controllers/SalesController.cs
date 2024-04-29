@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -14,6 +15,7 @@ namespace ReactApp1.Server.Controllers
             _salesService = salesService;
         }
 
+        //[Authorize(Roles = $"Admin, User")]
         [HttpGet]
         public async Task<IActionResult> ListSales()
         {
@@ -21,6 +23,7 @@ namespace ReactApp1.Server.Controllers
             return Ok(sales);
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetSales(int carId)
         {
