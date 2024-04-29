@@ -71,6 +71,10 @@ namespace ReactApp1.Server.Services
         {
             DateTime fromDate = DateTime.Parse(_fromDate);
             DateTime toDate = DateTime.Parse(_toDate);
+            bool dateIsValid = false;
+            DateTime realTime = DateTime.UtcNow;
+            if (fromDate.Year >= realTime.Year && toDate.Year < 2030) { dateIsValid = true; }
+
             bool validDate = false;
             bool dateIsFree = false;
             bool checkFromDate = true, checkToDate = true, checkInBetween = true;
@@ -87,15 +91,17 @@ namespace ReactApp1.Server.Services
 
             if (fromDate <= toDate) { validDate = true; }
             if (checkFromDate && checkToDate) { dateIsFree = true; }
-            if (validDate && dateIsFree && checkInBetween) { return true; }
+            if (validDate && dateIsFree && checkInBetween && dateIsValid) { return true; }
             return false;
         }
 
         public async Task<int> CountPrice(int carId, string _fromDate, string _toDate)
         {
+            if(ValidDate(carId, _fromDate, _toDate).Result == true ) { 
             DateTime fromDate = DateTime.Parse(_fromDate);
             DateTime toDate = DateTime.Parse(_toDate);
             TimeSpan difference = toDate - fromDate;
+            
             int days = difference.Days + 1;
             List<Car> carTypes = await _carService.ListCars();
             foreach (var carType in carTypes)
@@ -104,6 +110,7 @@ namespace ReactApp1.Server.Services
                 {
                     return days * carType.DailyPrice;
                 }
+            }
             }
             return 0;
         }
