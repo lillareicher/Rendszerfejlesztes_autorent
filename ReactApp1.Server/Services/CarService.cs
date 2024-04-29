@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Entities;
+using ReactApp1.Server.Models.Model;
 
 namespace ReactApp1.Server.Services
 {
@@ -8,7 +9,7 @@ namespace ReactApp1.Server.Services
     {
         Task<List<Car>> ListCars();
         Task<List<Car>> FilterCars(string categoryName);
-        Task<bool> AddCars(int categoryId, string brand, string model, int dailyPrice);
+        Task<bool> AddCars(NewCar newC);
     }
 
     public class CarService : ICarService
@@ -48,17 +49,17 @@ namespace ReactApp1.Server.Services
             return filteredCars;
         }
 
-        public async Task<bool> AddCars(int categoryId, string brand, string model, int dailyPrice)
+        public async Task<bool> AddCars(NewCar newC)
         {
             var cars = await ListCars();
             Car car = new Car();
 
-            car.CategoryId = categoryId;
-            car.Brand = brand;
-            car.Model = model;
-            car.DailyPrice = dailyPrice;
+            car.CategoryId = newC.CategoryId;
+            car.Brand = newC.Brand;
+            car.Model = newC.Model;
+            car.DailyPrice = newC.DailyPrice;
 
-            var categoryIdExists = await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
+            var categoryIdExists = await _context.Category.FirstOrDefaultAsync(c => c.Id == newC.CategoryId);
 
             if(categoryIdExists == null)
             {

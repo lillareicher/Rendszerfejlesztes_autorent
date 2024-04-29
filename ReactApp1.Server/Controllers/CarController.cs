@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Migrations;
 using ReactApp1.Server.Models.Entities;
+using ReactApp1.Server.Models.Model;
 using ReactApp1.Server.Services;
 using System.Data;
 
@@ -37,10 +38,10 @@ namespace ReactApp1.Server.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet()]
-        public async Task<IActionResult> AddCar(int categoryId, string brand, string model, int dailyPrice)
+        [HttpPost]
+        public async Task<IActionResult> AddCar(NewCar newC)
         {
-            var cars = await _carService.AddCars(categoryId, brand, model, dailyPrice);
+            var cars = await _carService.AddCars(newC);
             return Ok(cars);
         }
     }
