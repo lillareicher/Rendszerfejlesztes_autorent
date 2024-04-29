@@ -52,14 +52,13 @@ namespace ReactApp1.Server.Services
         {
             var cars = await ListCars();
             Car car = new Car();
-            car.Id = cars.Count() + 1;
 
             car.CategoryId = categoryId;
             car.Brand = brand;
             car.Model = model;
             car.DailyPrice = dailyPrice;
 
-            var categoryIdExists = await _context.Car.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+            var categoryIdExists = await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
 
             if(categoryIdExists == null)
             {
