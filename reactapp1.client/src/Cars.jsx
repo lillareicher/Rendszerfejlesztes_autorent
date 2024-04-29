@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
 
-
 function Cars() {
     const params = useParams();
     const { username } = params;
@@ -13,11 +12,12 @@ function Cars() {
     const [carsList, setCarsList] = useState([]);
     const [categoryList, setCatList] = useState([]);
     const [filterCat, setFilterCat] = useState("Race");
+    const [filterCat2, setFilterCat2] = useState(-1);
     const [isAuth, setIsAuth] = useState(false);
     const [decToken, setDecToken] = useState(null);
-    const [brand, setBrand] = useState("");
-    const [model, setModel] = useState("");
-    const [dailyP, setDailyP] = useState("");
+    const [brand, setBrand] = useState(" ");
+    const [model, setModel] = useState(" ");
+    const [dailyP, setDailyP] = useState(" ");
 
     const flag = null;
 
@@ -59,9 +59,6 @@ function Cars() {
         getCatList();
     }, [flag]);
 
-    //function accessDeniedMsg() {
-
-    //}
 
     function brandChange(event) {
         setBrand(event.target.value);
@@ -74,12 +71,34 @@ function Cars() {
     }
 
     async function sendNewCar() {
-        const data = {
-            
-        };
+        if (filterCat2 != -1 || brand != " " || model != " " || dailyP != " ") {
+            const token = localStorage.getItem('token');
+            const data = {
+                Brand: brand,
+                Model: model,
+                DailyPrice: dailyP,
+                CategoryId: filterCat2
+            };
+
+            fetch('https://localhost:7045/api/car/addcar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            }).then((response) => {
+                if (response.ok) {
+                    window.alert("New car added succesfully!");
+                    window.location.reload();
+                } else if (response.status === 403) {
+                    window.alert("Problem with adding new car.");
+                }
+            });
+        } else {
+            window.alert("Problem with input data.");
+        }
     }
-
-
     function printAddNewCar() {
         if (decToken.role == "Admin") {
             return (
@@ -92,10 +111,10 @@ function Cars() {
                     Daily Price:<br></br>
                     <input name="dailyPrice" onChange={dailyPChange}></input><br></br>
                     Category:<br></br>
-                    <select name="categoryList" onChange={catChange}>
+                    <select name="categoryList" onChange={catChange2}>
                         {selecting()}
                     </select><br></br>
-                    <button>Add</button>
+                    <button onClick = {sendNewCar}>Add</button>
 
                 </fieldset>
             );
@@ -143,6 +162,12 @@ function Cars() {
         console.log(filterCat);
     }
 
+    function catChange2(event) {
+        const cat = event.target.value;
+        const currentCat = categoryList.find(cate => cate.name == cat);
+        setFilterCat2(currentCat.id);
+    }
+
     function selecting() {
         var result = new Array();
 
@@ -187,11 +212,7 @@ function Cars() {
                     <br></br>
                     <button onClick={sendCategory} >Filter</button>
                 </div>
-
                 {printAddNewCar()}
-
-
-
             </div>
         );
     } else {

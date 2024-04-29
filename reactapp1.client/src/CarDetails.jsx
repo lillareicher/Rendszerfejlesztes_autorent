@@ -131,7 +131,7 @@ function CarDetails() {
 
         const response = await fetch('https://localhost:7045/api/rental/validdate?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         const data = await response.json();
-        if (data) {
+        if (data && fromDate != " " && toDate != " ") {
             makeReserv();
             window.alert("Your reservation has been succesful!");
         } else {
@@ -145,8 +145,11 @@ function CarDetails() {
         const response = await fetch('https://localhost:7045/api/rental/countprice?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         const data = await response.json();
 
+        if (price == 0) {
+            window.alert("Problem with the dates you picked.");
+            return;
+        }
         setPrice(data);
-
     }
 
     if (loading) {
