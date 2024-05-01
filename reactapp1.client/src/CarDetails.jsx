@@ -145,11 +145,11 @@ function CarDetails() {
         const response = await fetch('https://localhost:7045/api/rental/countprice?carId=' + carId + '&_fromDate=' + fromDate + '&_toDate=' + toDate);
         const data = await response.json();
 
-        if (price == 0) {
+        setPrice(data);
+        if (data == 0) {
             window.alert("Problem with the dates you picked.");
             return;
         }
-        setPrice(data);
     }
 
     if (loading) {
