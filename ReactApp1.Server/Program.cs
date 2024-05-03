@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Services;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.WebSockets;
 using System.Text;
+using System.Net;
+using System.Diagnostics.Eventing.Reader;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+//builder.WebHost.UseUrls("https://localhost:5173/");
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
 {
@@ -19,11 +22,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication(options => 
-{ 
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;  
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => 
+}).AddJwtBearer(options =>
 {
     options.Authority = "https://localhost:7045/";
     options.RequireHttpsMetadata = false;
@@ -36,7 +39,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Jsdgfksdo345634lesdfgdf5jkdgfljkdgfk756lksdf")),
         ValidateIssuerSigningKey = true
-};
+    };
 });
 
 builder.Services.AddSwaggerGen(c =>
@@ -80,6 +83,46 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 var app = builder.Build();
+
+//public enum WebSocketState //reprezentációja az állapotoknak
+//{
+//    None = 0,
+//    Connecting = 1,
+//    Open = 2,
+//    CloseSent = 3,
+//    CloseReceived = 4,
+//    Closed = 5,
+//    Aborted = 6
+//}
+
+app.UseWebSockets(); // websocket
+app.Map("/ws", async ctx =>
+{
+    if (ctx.WebSockets.IsWebSocketRequest)
+    {
+        using var ws = await ctx.WebSockets.AcceptWebSocketAsync();
+        while (true)
+        {
+            var msg = "The current time is: " + DateTime.Now.ToString("HH:mm:ss");
+            var bytes = Encoding.UTF8.GetBytes(msg);
+            var arraySegment = new ArraySegment<byte>(bytes, 0, bytes.Length);
+            if (ws.State == WebSocketState.Open)
+            {
+                await ws.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            else if (ws.State == WebSocketState.Closed || ws.State == WebSocketState.Aborted)
+            {
+                break;
+            }
+            Thread.Sleep(1000);
+        }
+    }
+    else
+    {
+        ctx.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+    }
+});
+
 using (var scope = app.Services.CreateScope())
 {
     var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
@@ -111,4 +154,5 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
-app.Run();
+//app.Run();
+await app.RunAsync();
