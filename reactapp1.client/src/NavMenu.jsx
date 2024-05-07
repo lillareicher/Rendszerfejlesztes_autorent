@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import "./NavMenu.css";
 import PropTypes from 'prop-types';
+import User from './User';
 
 function NavMenu({ username }) {
 
@@ -15,7 +16,7 @@ function NavMenu({ username }) {
                         <ul>
                             <li>
                                 <a>
-                                    <Nav.Link href="/">Logout</Nav.Link>
+                                    <Nav.Link href={`/${username}/logout`}>Logout</Nav.Link>
                                 </a>
                             </li>
                             <li>

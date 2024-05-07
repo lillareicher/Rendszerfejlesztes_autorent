@@ -18,7 +18,7 @@ function CarDetails() {
 
     useEffect(() => {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(`token_${username}`);
         if (!token) {
             setIsAuth(false);
             setLoading(false);

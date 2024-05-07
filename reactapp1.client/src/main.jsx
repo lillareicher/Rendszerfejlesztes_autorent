@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import Login from './Login.jsx'
 import Cars from './Cars.jsx'
 import User from './User.jsx'
+import Logout from './Logout.jsx'
 
 import CarDetails from './CarDetails';
 import {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
     {
         path: "/:username",
         element: <User />
+    },
+    {
+        path: "/:username/logout",
+        element: <Logout/>
     }
 ]);
 

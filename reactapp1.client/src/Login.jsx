@@ -1,12 +1,17 @@
 
 import { useEffect, useState } from 'react';
+//import { FutureConfig } from '../../../../../../../node_modules/react-router-dom/dist/index';
 //import Cookies from "universal-cookie";
 //import jwt from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
     const [usernameC, setUsername] = useState();
     const [passwordC, setPassword] = useState();
+    
     //const cookies = new Cookies();
+
+
 
     async function sendLoginInfo() {
         const data = {
@@ -30,12 +35,13 @@ function Login() {
             return response.json();
         }).then((responseData) => {
             //console.log(responseData);
-            localStorage.setItem('token', responseData);
+            localStorage.setItem(`token_${usernameC}`, responseData);
             window.location.href = `/${usernameC}/cars`;
         }).catch(error => {
                 console.log(error);
         });
     }
+
 
     function userChange(event) {
         setUsername(event.target.value);
@@ -44,7 +50,8 @@ function Login() {
         setPassword(event.target.value);
     }
 
-    localStorage.clear();
+
+
 
     return (
         <div>

@@ -25,7 +25,7 @@ function User() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(`token_${username}`);
 
         const decoded = jwtDecode(token);
         decoded.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];

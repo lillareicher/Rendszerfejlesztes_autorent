@@ -23,7 +23,15 @@ function Cars() {
 
     useEffect(() => {
 
-        const token = localStorage.getItem('token');
+        const ws = new WebSocket('ws://localhost:7045/ws');
+
+        ws.onmessage = event => {
+            const message = event.data;
+            window.alert(message);
+            window.location.reload();
+        }
+
+        const token = localStorage.getItem(`token_${username}`);
 
         const decoded = jwtDecode(token);
         decoded.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
@@ -57,7 +65,11 @@ function Cars() {
 
         getCarsList();
         getCatList();
-    }, [flag]);
+
+        return () => {
+            ws.close();
+        };
+    }, []);
 
 
     function brandChange(event) {
@@ -72,7 +84,7 @@ function Cars() {
 
     async function sendNewCar() {
         if (filterCat2 != -1 || brand != " " || model != " " || dailyP != " ") {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem(`token_${username}`);
             const data = {
                 Brand: brand,
                 Model: model,
