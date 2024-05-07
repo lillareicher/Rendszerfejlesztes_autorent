@@ -23,13 +23,13 @@ function Cars() {
 
     useEffect(() => {
 
-        const ws = new WebSocket('ws://localhost:7045/ws');
+        //const ws = new WebSocket('ws://localhost:7045/ws');
 
-        ws.onmessage = event => {
-            const message = event.data;
-            window.alert(message);
-            window.location.reload();
-        }
+        //ws.onmessage = event => {
+        //    const message = event.data;
+        //    window.alert(message);
+        //    window.location.reload();
+        //}
 
         const token = localStorage.getItem(`token_${username}`);
 
@@ -66,9 +66,9 @@ function Cars() {
         getCarsList();
         getCatList();
 
-        return () => {
-            ws.close();
-        };
+        //return () => {
+        //    ws.close();
+        //};
     }, []);
 
 
