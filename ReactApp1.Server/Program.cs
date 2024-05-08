@@ -9,6 +9,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Net;
 using System.Diagnostics.Eventing.Reader;
+using ReactApp1.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,22 +101,31 @@ app.Map("/ws", async ctx =>
 {
     if (ctx.WebSockets.IsWebSocketRequest)
     {
-        using var ws = await ctx.WebSockets.AcceptWebSocketAsync();
-        while (true)
-        {
-            var msg = "The current time is: " + DateTime.Now.ToString("HH:mm:ss");
-            var bytes = Encoding.UTF8.GetBytes(msg);
-            var arraySegment = new ArraySegment<byte>(bytes, 0, bytes.Length);
-            if (ws.State == WebSocketState.Open)
-            {
-                await ws.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
-            }
-            else if (ws.State == WebSocketState.Closed || ws.State == WebSocketState.Aborted)
-            {
-                break;
-            }
-            Thread.Sleep(1000);
+        //var username = ctx.Request.Query["username"];
+        var ws = await ctx.WebSockets.AcceptWebSocketAsync();
+        //await WebSocketHelper.AddClient(username,ws);
+        await WebSocketHelper.AddClient(ws);
+
+        while (ws.State == WebSocketState.Open) {
+            await Task.Delay(TimeSpan.FromSeconds(5));
         }
+
+        //using var ws = await ctx.WebSockets.AcceptWebSocketAsync();
+        //while (true)
+        //{
+        //    var msg = "The current time is: " + DateTime.Now.ToString("HH:mm:ss");
+        //    var bytes = Encoding.UTF8.GetBytes(msg);
+        //    var arraySegment = new ArraySegment<byte>(bytes, 0, bytes.Length);
+        //    if (ws.State == WebSocketState.Open)
+        //    {
+        //        await ws.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
+        //    }
+        //    else if (ws.State == WebSocketState.Closed || ws.State == WebSocketState.Aborted)
+        //    {
+        //        break;
+        //    }
+        //    Thread.Sleep(1000);
+        //}
     }
     else
     {

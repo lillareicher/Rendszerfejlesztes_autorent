@@ -18,16 +18,24 @@ function Cars() {
     const [brand, setBrand] = useState(" ");
     const [model, setModel] = useState(" ");
     const [dailyP, setDailyP] = useState(" ");
+    const [ws, setWs] = useState(null);
+    const [wsOK, setWsOK] = useState(false);
 
     const flag = null;
 
+    
+
     useEffect(() => {
 
-        //const ws = new WebSocket('ws://localhost:7045/ws');
-
+       
+        //if (!wsOK) {
+        //var wsInstance = connectToWs();
+        //}
+        
+       
         //ws.onmessage = event => {
-        //    const message = event.data;
-        //    window.alert(message);
+        //    const message = JSON.parse(event.data);
+        //    window.alert("A new car has been added to the list. Click OK to reload the page.");
         //    window.location.reload();
         //}
 
@@ -39,6 +47,16 @@ function Cars() {
         delete decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
         delete decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         setDecToken(decoded);
+
+        //const wsInstance = new WebSocket(`wss://localhost:7045/ws?username=${username}`);
+        const wsInstance = new WebSocket('wss://localhost:7045/ws');
+        //const wsInstance = new WebSocket('wss://localhost:7045/ws', {username});
+        wsInstance.onmessage = event => {
+            const message = event.data;
+            window.alert(message);
+            //wsInstance.close();
+            window.location.reload();
+        };
 
         if (!token || decoded.username != username) {
             setIsAuth(false);
@@ -69,8 +87,14 @@ function Cars() {
         //return () => {
         //    ws.close();
         //};
-    }, []);
+    }, [flag]);
 
+    //function connectToWs() {
+    //    const wsInstance = new WebSocket('wss://localhost:7045/ws', [`Authorization: Bearer ${token}`]);
+    //    setWs(wsInstance);
+    //    setWsOK(true);
+    //    return wsInstance;
+    //}
 
     function brandChange(event) {
         setBrand(event.target.value);
@@ -101,8 +125,8 @@ function Cars() {
                 body: JSON.stringify(data),
             }).then((response) => {
                 if (response.ok) {
-                    window.alert("New car added succesfully!");
-                    window.location.reload();
+                    //window.alert("New car added succesfully!");
+                    //window.location.reload();
                 } else if (response.status === 403) {
                     window.alert("Problem with adding new car.");
                 }

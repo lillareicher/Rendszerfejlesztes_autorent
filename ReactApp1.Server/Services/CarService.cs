@@ -68,6 +68,9 @@ namespace ReactApp1.Server.Services
 
             await _context.AddAsync(car);
             await _context.SaveChangesAsync();
+
+            await WebSocketHelper.NotifyClients("A new car has been added to the list.");
+
             return true;
         }
 
