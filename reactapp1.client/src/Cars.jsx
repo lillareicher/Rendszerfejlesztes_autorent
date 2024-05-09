@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import NavMenu from "./NavMenu"
 import { useParams } from 'react-router-dom';
@@ -18,8 +18,9 @@ function Cars() {
     const [brand, setBrand] = useState(" ");
     const [model, setModel] = useState(" ");
     const [dailyP, setDailyP] = useState(" ");
-    const [ws, setWs] = useState(null);
-    const [wsOK, setWsOK] = useState(false);
+    //const [ws, setWs] = useState(null);
+    const ws = useRef(null);
+    //const [wsOK, setWsOK] = useState(false);
 
     const flag = null;
 
@@ -27,6 +28,9 @@ function Cars() {
 
     useEffect(() => {
 
+        //if (ws) {
+        //    return;
+        //}
        
         //if (!wsOK) {
         //var wsInstance = connectToWs();
@@ -48,15 +52,18 @@ function Cars() {
         delete decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         setDecToken(decoded);
 
-        //const wsInstance = new WebSocket(`wss://localhost:7045/ws?username=${username}`);
-        const wsInstance = new WebSocket('wss://localhost:7045/ws');
-        //const wsInstance = new WebSocket('wss://localhost:7045/ws', {username});
-        wsInstance.onmessage = event => {
-            const message = event.data;
-            window.alert(message);
-            //wsInstance.close();
-            window.location.reload();
-        };
+        ////const wsInstance = new WebSocket(`wss://localhost:7045/ws?username=${username}`);
+        //const wsInstance = new WebSocket('wss://localhost:7045/ws');
+        //wsInstance.onopen = () => {
+        //    setWs(wsInstance);
+        //}
+        ////const wsInstance = new WebSocket('wss://localhost:7045/ws', {username});
+        //wsInstance.onmessage = event => {
+        //    const message = event.data;
+        //    window.alert(message);
+        //    //wsInstance.close();
+        //    window.location.reload();
+        //};
 
         if (!token || decoded.username != username) {
             setIsAuth(false);
@@ -84,8 +91,17 @@ function Cars() {
         getCarsList();
         getCatList();
 
+        if (!ws.current) {
+            ws.current = new WebSocket('wss://localhost:7045/ws');
+            ws.current.onmessage = event => {
+                const message = event.data;
+                window.alert(message);
+                window.location.reload();
+            };
+        }
+
         //return () => {
-        //    ws.close();
+        //    wsInstance.close();
         //};
     }, [flag]);
 
