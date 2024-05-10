@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import NavMenu from "./NavMenu"
 import { jwtDecode } from "jwt-decode";
@@ -10,6 +10,8 @@ function User() {
     const [userRent, setUserRent] = useState([]);
     const [isAuth, setIsAuth] = useState(false);
     const [decToken, setDecToken] = useState(null);
+    const [message, setMessage] = useState(<div></div>);
+    const ws = useRef(null);
     const flag = null;
 
     async function getUser() {
@@ -37,6 +39,25 @@ function User() {
         if (!token || decoded.username != username) {
             setIsAuth(false);
             return;
+        }
+
+        if (!ws.current) {
+            ws.current = new WebSocket('wss://localhost:7045/ws');
+            ws.current.onmessage = event => {
+                const mess = event.data;
+                setMessage(<table
+                    style={{ backgroundColor: 'rgb(255, 255, 153)', color: 'red' }}
+                    border="1">
+                    <tbody>
+                        <tr>
+                            <td style={{ verticalAlign: 'top' }}><b>{mess}</b><br /></td>
+                        </tr>
+                    </tbody>
+                </table>);
+                //printNot();
+                //window.alert(message);
+                //window.location.reload();
+            };
         }
 
         setIsAuth(true);
@@ -68,6 +89,8 @@ function User() {
         return (
             <div>
                 <NavMenu username={username} />
+
+                {message }
 
                 <h2>Hello, {username}!</h2>
                 <u>Account information:</u>

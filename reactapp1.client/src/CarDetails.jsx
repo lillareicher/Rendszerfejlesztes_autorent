@@ -1,6 +1,7 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import NavMenu from "./NavMenu"
+import { jwtDecode } from "jwt-decode";
 
 function CarDetails() {
     const [loading, setLoading] = useState(true);
@@ -11,7 +12,12 @@ function CarDetails() {
     const [fromDate, setFromDate] = useState(" ");
     const [toDate, setToDate] = useState(" ");
     const [isAuth, setIsAuth] = useState(false);
+    const [decToken, setDecToken] = useState(null);
+    const [desc, setDesc] = useState(" ");
+    const [perc, setPerc] = useState(" ");
     const params = useParams();
+    const [message, setMessage] = useState(<div></div>);
+    const ws = useRef(null);
     const { carId } = params;
     const { username } = params;
 
@@ -26,6 +32,13 @@ function CarDetails() {
         }
 
         setIsAuth(true);
+
+        const decoded = jwtDecode(token);
+        decoded.role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        decoded.username = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        delete decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        delete decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        setDecToken(decoded);
 
         async function fetchData() {
             try {
@@ -44,6 +57,27 @@ function CarDetails() {
                 setLoading(false);
             }
         }
+
+        if (!ws.current) {
+            ws.current = new WebSocket('wss://localhost:7045/ws');
+            ws.current.onmessage = event => {
+                const mess = event.data;
+                setMessage(<table
+                    style={{ backgroundColor: 'rgb(255, 255, 153)', color: 'red' }}
+                    border="1">
+                    <tbody>
+                        <tr>
+                            <td style={{ verticalAlign: 'top' }}><b>{mess}</b><br /></td>
+                            <td
+                                style={{ verticalAlign: 'top', backgroundColor: 'rgb(255, 255, 153)' }}>
+                                Please refresh the page to view all changes!<br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>);
+            };
+        }
+
         fetchData();
     }, [carId]);
 
@@ -77,14 +111,26 @@ function CarDetails() {
                         <td>Percentage</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{currentSale.description}</td>
-                            <td>{currentSale.percentage}%</td>
-                        </tr>
+                        {listingSales()}
                     </tbody>
                 </table>
             </div>            
         );
+    }
+
+    function listingSales() {
+        var result = new Array();
+
+        result = result.concat(salesList.map(sale => {
+            return (
+                <tr key={sale.id}>
+                    <td>{sale.description}</td>
+                    <td>{sale.percentage}%</td>
+                </tr>
+            );
+        }));
+
+        return result;
     }
 
     function listRents() {
@@ -152,6 +198,58 @@ function CarDetails() {
         }
     }
 
+    function sendNewSale() {
+        if (descChange != " " || percChange != " ") {
+            const token = localStorage.getItem(`token_${username}`);
+            const data = {
+                Description: desc,
+                Percentage: perc,
+                CarId: carId
+            };
+            fetch('https://localhost:7045/api/sales/addsale', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            }).then((response) => {
+                if (response.ok) {
+                    window.alert("New discount added succesfully!");
+                    window.location.reload();
+                } else if (response.status === 403) {
+                    window.alert("Problem with adding new discount.");
+                }
+            });
+        } else {
+            window.alert("Problem with input data.");
+        }
+    }
+
+    function descChange(event) {
+        setDesc(event.target.value);
+    }
+
+    function percChange(event) {
+        setPerc(event.target.value);
+    }
+
+    function printNewDiscount() {
+        if (decToken.role == "Admin") {
+            return (
+                <fieldset>
+                    Add new discount:<br></br>
+                    Description:<br></br>
+                    <input onChange={descChange}></input><br></br>
+                    Percentage:<br></br>
+                    <input onChange={percChange}></input><br></br>
+                    <button onClick={sendNewSale }>Add</button><br></br>
+                </fieldset>
+            );
+        }
+        return (<div></div>)
+    }
+
     if (loading) {
         return (<div>Loading data...</div>);
     }
@@ -161,6 +259,7 @@ function CarDetails() {
             <div>
                 <NavMenu username={username} />
                 <div>
+                    {message}
                     About this car:
                     <table border="1">
                         <thead>
@@ -208,6 +307,9 @@ function CarDetails() {
                     <button onClick={countPrice}>Count price</button>
                     <h3>{price}$</h3>
                 </div>
+
+                {printNewDiscount()}
+
             </div>
         );
     } else {

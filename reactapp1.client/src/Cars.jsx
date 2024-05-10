@@ -18,6 +18,7 @@ function Cars() {
     const [brand, setBrand] = useState(" ");
     const [model, setModel] = useState(" ");
     const [dailyP, setDailyP] = useState(" ");
+    const [message, setMessage] = useState(<div></div>);
     //const [ws, setWs] = useState(null);
     const ws = useRef(null);
     //const [wsOK, setWsOK] = useState(false);
@@ -94,9 +95,23 @@ function Cars() {
         if (!ws.current) {
             ws.current = new WebSocket('wss://localhost:7045/ws');
             ws.current.onmessage = event => {
-                const message = event.data;
-                window.alert(message);
-                window.location.reload();
+                const mess = event.data;
+                setMessage(<table
+                    style={{ backgroundColor: 'rgb(255, 255, 153)', color: 'red' }}
+                    border="1">
+                    <tbody>
+                        <tr>
+                            <td style={{ verticalAlign: 'top' }}><b>{mess}</b><br /></td>
+                            <td
+                                style={{ verticalAlign: 'top', backgroundColor: 'rgb(255, 255, 153)' }}>
+                                Please refresh the page to view all changes!<br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>);
+                //printNot();
+                //window.alert(message);
+                //window.location.reload();
             };
         }
 
@@ -122,6 +137,26 @@ function Cars() {
         setDailyP(event.target.value);
     }
 
+    //function printNot() {
+    //    if (message != "") {
+    //        <table
+    //            style={{ backgroundColor: 'rgb(255, 255, 153)', color: 'red' }}
+    //            border="1">
+    //            <tbody>
+    //                <tr>
+    //                    <td style={{ verticalAlign: 'top' }}>{message}<br /></td>
+    //                    <td
+    //                        style={{ verticalAlign: 'top', backgroundColor: 'rgb(255, 255, 153)' }}>
+    //                        Please refresh the page to view all changes!<br />
+    //                    </td>
+    //                </tr>
+    //            </tbody>
+    //        </table>
+    //    } else {
+    //        <div></div>
+    //    }
+    //}
+
     async function sendNewCar() {
         if (filterCat2 != -1 || brand != " " || model != " " || dailyP != " ") {
             const token = localStorage.getItem(`token_${username}`);
@@ -141,8 +176,8 @@ function Cars() {
                 body: JSON.stringify(data),
             }).then((response) => {
                 if (response.ok) {
-                    //window.alert("New car added succesfully!");
-                    //window.location.reload();
+                    window.alert("New car added succesfully!");
+                    window.location.reload();
                 } else if (response.status === 403) {
                     window.alert("Problem with adding new car.");
                 }
@@ -241,8 +276,10 @@ function Cars() {
                 <NavMenu username={username} />
                 <div>
 
+
                 </div>
                 <div>
+                    {message}
                     <table border="1">
                         <thead>
                             <tr>
