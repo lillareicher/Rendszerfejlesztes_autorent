@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReactApp1.Server.Models.Model;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
@@ -29,6 +30,15 @@ namespace ReactApp1.Server.Controllers
         {
             var sales = await _salesService.GetSales(carId);
             return Ok(sales);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> AddSale(NewSale sale)
+        {
+            var sales = await _salesService.AddSale(sale);
+            return Ok(sales);
+
         }
     }
 }
